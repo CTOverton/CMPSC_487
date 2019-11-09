@@ -8,8 +8,8 @@ import AdminLinks from "./AdminLinks";
 const Navbar = () => {
     return (
         <nav className="nav-wrapper grey darken-3">
+            <Link to='/' className="brand-logo">Web App</Link>
             <div className="container">
-                <Link to='/' className="brand-logo">Web App</Link>
                 <AdminLinks/>
                 <StudentLinks/>
                 <DefaultLinks/>
