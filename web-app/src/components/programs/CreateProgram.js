@@ -9,13 +9,21 @@ class CreateProgram extends Component {
         description: '',
         courses: [],
         blacklistIDs: [],
-        content: ''
     }
 
     handleChange = (e) => {
-        this.setState({
-            [e.target.id]: e.target.value
-        })
+        if (e.target.id === "courses" || e.target.id === "blacklistIDs") {
+            let list = e.target.value.split(',');
+            console.log(list);
+            this.setState({
+                [e.target.id]: list
+            })
+        } else {
+            this.setState({
+                [e.target.id]: e.target.value
+            })
+        }
+
     }
     handleSubmit = (e) => {
         e.preventDefault();
@@ -27,7 +35,7 @@ class CreateProgram extends Component {
     render() {
         const { auth, profile } = this.props;
         const { admin } = profile;
-        if (auth.isLoaded && (!auth.uid || !admin)) return <Redirect to='/signin' /> // Todo refresh redirects which sucks
+        // if (auth.isLoaded && (!auth.uid || !admin)) return <Redirect to='/signin' /> // Todo refresh redirects which sucks
 
         return (
             <div className="container">
@@ -42,6 +50,18 @@ class CreateProgram extends Component {
                         <label htmlFor="description">Program Description</label>
                     </div>
                     <h6 className="grey-text text-darken-3">Courses</h6>
+
+                    <div className="input-field">
+                        <textarea id="courses" className="materialize-textarea" onChange={this.handleChange}></textarea>
+                        <label htmlFor="courses">Enter courses separated by comma</label>
+                    </div>
+
+                    <h6 className="grey-text text-darken-3">Blacklisted Students</h6>
+
+                    <div className="input-field">
+                        <textarea id="blacklistIDs" className="materialize-textarea" onChange={this.handleChange}></textarea>
+                        <label htmlFor="blacklistIDs">Enter student ID's separated by comma</label>
+                    </div>
 
                     <div className="input-field">
                         <button className="waves-effect waves-light btn deep-purple darken-1" onClick={this.handleSubmit}>Create Program</button>
