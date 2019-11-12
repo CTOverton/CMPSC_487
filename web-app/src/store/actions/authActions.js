@@ -37,7 +37,7 @@ export const signUp = (newUser) => {
         firstName: newUser.firstName,
         lastName: newUser.lastName,
         initials: newUser.firstName[0] + newUser.lastName[0],
-        role: newUser.role
+        email: newUser.email
       });
     }).then(() => {
       dispatch({ type: 'SIGNUP_SUCCESS' });
@@ -50,8 +50,8 @@ export const signUp = (newUser) => {
 export const updateRoles = (user) => {
   return (dispatch, getState, {getFirebase}) => {
     const firebase = getFirebase();
-    const updateRole = firebase.functions().httpsCallable('addAdminRole');
-    updateRole({ email: user.email}).then(result => {
+    const updateRole = firebase.functions().httpsCallable('updateRole');
+    updateRole(user).then(result => {
       // Todo: check if data.err or data.message to see if it actual was a success
       dispatch({ type: 'UPDATEROLES_SUCCESS', result });
     }).catch(err => {

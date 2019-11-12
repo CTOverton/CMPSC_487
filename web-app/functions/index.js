@@ -2,14 +2,21 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
-exports.addAdminRole = functions.https.onCall((data, context) => {
+exports.updateRole = functions.https.onCall((data, context) => {
     return admin.auth().getUserByEmail(data.email).then(user => {
-        return admin.auth().setCustomUserClaims(user.uid, {
-            admin: true
-        })
+        if (data.role === 'admin') {
+            return admin.auth().setCustomUserClaims(user.uid, {
+                admin: true
+            })
+        } else {
+            return admin.auth().setCustomUserClaims(user.uid, {
+                admin: null
+            })
+        }
+
     }).then(() => {
         return {
-            message: `Success! ${data.email} is an admin`
+            message: `Success! ${data.email} is a ${data.role}`
         }
     }).catch(err => {
         return err;
