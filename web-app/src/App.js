@@ -9,6 +9,7 @@ import CreateProgram from "./components/programs/CreateProgram";
 import ProgramDetails from "./components/programs/ProgramDetails";
 import UpdateRoles from "./components/auth/UpdateRoles";
 import ProfileDetails from "./components/profile/ProfileDetails";
+import TemplateComponent from "./components/template/TemplateComponent";
 
 class App extends Component {
   render() {
@@ -25,6 +26,8 @@ class App extends Component {
             <Route path='/roles/edit' component={UpdateRoles} />
             <Route path='/profile' component={ProfileDetails} />
             <Route path='/createprogram' component={CreateProgram} />
+
+            <Route path='/templatetesting' component={TemplateComponent}/>
           </Switch>
         </div>
       </BrowserRouter>
