@@ -8,8 +8,7 @@ class SignUp extends Component {
     email: '',
     password: '',
     firstName: '',
-    lastName: '',
-    admin: false
+    lastName: ''
   }
   handleChange = (e) => {
     this.setState({
@@ -22,40 +21,39 @@ class SignUp extends Component {
   }
   render() {
     const { auth, profile, authError } = this.props;
-    if (auth.uid && !profile.admin) return <Redirect to='/' />;
+    // if (auth.uid && !profile.admin) return <Redirect to='/' />;
 
-    const adminCheckbox = profile.admin ? <label htmlFor="admin"><input type="checkbox" id='admin' onChange={this.handleChange} /><span>Make Admin</span></label> : <div/>;
+    const redirect = <Redirect to='/' />;
+    const content = <div className="container">
+      <form className="white" onSubmit={this.handleSubmit}>
+        <h5 className="grey-text text-darken-3">Sign Up</h5>
+        <div className="input-field">
+          <label htmlFor="email">Email</label>
+          <input type="email" id='email' onChange={this.handleChange} />
+        </div>
+        <div className="input-field">
+          <label htmlFor="password">Password</label>
+          <input type="password" id='password' onChange={this.handleChange} />
+        </div>
+        <div className="input-field">
+          <label htmlFor="firstName">First Name</label>
+          <input type="text" id='firstName' onChange={this.handleChange} />
+        </div>
+        <div className="input-field">
+          <label htmlFor="lastName">Last Name</label>
+          <input type="text" id='lastName' onChange={this.handleChange} />
+        </div>
+        <div className="input-field">
+          <button className="waves-effect waves-light btn deep-purple darken-1">Sign Up</button>
+          <div className="center red-text">
+            { authError ? <p>{authError}</p> : <p></p> }
+          </div>
+        </div>
+      </form>
+    </div>;
 
-    return (
-      <div className="container">
-        <form className="white" onSubmit={this.handleSubmit}>
-          <h5 className="grey-text text-darken-3">Sign Up</h5>
-          <div className="input-field">
-            <label htmlFor="email">Email</label>
-            <input type="email" id='email' onChange={this.handleChange} />
-          </div>
-          <div className="input-field">
-            <label htmlFor="password">Password</label>
-            <input type="password" id='password' onChange={this.handleChange} />
-          </div>
-          <div className="input-field">
-            <label htmlFor="firstName">First Name</label>
-            <input type="text" id='firstName' onChange={this.handleChange} />
-          </div>
-          <div className="input-field">
-            <label htmlFor="lastName">Last Name</label>
-            <input type="text" id='lastName' onChange={this.handleChange} />
-          </div>
-          { auth.isLoaded && adminCheckbox }
-          <div className="input-field">
-            <button className="waves-effect waves-light btn deep-purple darken-1">Sign Up</button>
-            <div className="center red-text">
-              { authError ? <p>{authError}</p> : <p></p> }
-            </div>
-          </div>
-        </form>
-      </div>
-    )
+    // Show only if logged out
+    return auth.isLoaded && profile.isLoaded && (auth.uid ? redirect : content);
   }
 }
 

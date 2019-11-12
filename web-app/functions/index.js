@@ -2,11 +2,25 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
-const createNotification = ((notification) => {
+exports.addAdminRole = functions.https.onCall((data, context) => {
+    return admin.auth().getUserByEmail(data.email).then(user => {
+        return admin.auth().setCustomUserClaims(user.uid, {
+            admin: true
+        })
+    }).then(() => {
+        return {
+            message: `Success! ${data.email} is an admin`
+        }
+    }).catch(err => {
+        return err;
+    })
+});
+
+/*const createNotification = ((notification) => {
   return admin.firestore().collection('notifications')
     .add(notification)
     .then(doc => console.log('notification added', doc));
-});
+});*/
 
 /*
 
@@ -27,7 +41,7 @@ exports.projectCreated = functions.firestore
 
 exports.userJoined = functions.auth.user()
   .onCreate(user => {
-    
+
     return admin.firestore().collection('users')
       .doc(user.uid).get().then(doc => {
 

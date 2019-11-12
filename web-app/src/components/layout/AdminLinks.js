@@ -9,7 +9,7 @@ const AdminLinks = (props) => {
             <ul className="right">
                 <li><NavLink to='/'>Home</NavLink></li>
                 <li><NavLink to='/createprogram'>Create Program</NavLink></li>
-                <li><NavLink to='/signup'>Create Account</NavLink></li>
+                <li><NavLink to='/roles/edit'>Edit Roles</NavLink></li>
                 <li><a onClick={props.signOut}>Log Out</a></li>
                 <li><NavLink to='/' className="btn btn-floating deep-purple darken-1">
                     {props.profile.initials}

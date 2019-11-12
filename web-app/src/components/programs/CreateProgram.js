@@ -14,7 +14,6 @@ class CreateProgram extends Component {
     handleChange = (e) => {
         if (e.target.id === "courses" || e.target.id === "blacklistIDs") {
             let list = e.target.value.split(',');
-            console.log(list);
             this.setState({
                 [e.target.id]: list
             })
@@ -32,56 +31,76 @@ class CreateProgram extends Component {
         this.props.history.push('/');
     }
 
+    checkAcces = (allowedRoles, deniedRoles, profile) => {
+        // !profile.isEmpty && profile.token.claims[accessRole]
+        allowedRoles.map(role =>{
+            if (role === 'default') {
+                return true;
+            }
+            if (profile.token && profile.token.claims && profile.token.claims[role]) {
+                return true;
+            }
+        });
+        deniedRoles.map(role =>{
+            if (role === 'default') {
+                return false;
+            }
+            if (profile.token && profile.token.claims && profile.token.claims[role]) {
+                return false;
+            }
+        });
+    }
+
     render() {
         const { auth, profile } = this.props;
-        const { admin } = profile;
-        // if (auth.isLoaded && (!auth.uid || !admin)) return <Redirect to='/signin' /> // Todo refresh redirects which sucks
+        const redirect =  <Redirect to='/' />;
+        const content =  <div className="container">
+            <form className="white">
+                <h5 className="grey-text text-darken-3">Create a New Program</h5>
+                <div className="input-field">
+                    <input type="text" id='title' onChange={this.handleChange} />
+                    <label htmlFor="title">Program Title</label>
+                </div>
+                <div className="input-field">
+                    <textarea id="description" className="materialize-textarea" onChange={this.handleChange}></textarea>
+                    <label htmlFor="description">Program Description</label>
+                </div>
+                <h6 className="grey-text text-darken-3">Courses</h6>
 
-        return (
-            <div className="container">
-                <form className="white">
-                    <h5 className="grey-text text-darken-3">Create a New Program</h5>
-                    <div className="input-field">
-                        <input type="text" id='title' onChange={this.handleChange} />
-                        <label htmlFor="title">Program Title</label>
-                    </div>
-                    <div className="input-field">
-                        <textarea id="description" className="materialize-textarea" onChange={this.handleChange}></textarea>
-                        <label htmlFor="description">Program Description</label>
-                    </div>
-                    <h6 className="grey-text text-darken-3">Courses</h6>
+                <div className="input-field">
+                    <textarea id="courses" className="materialize-textarea" onChange={this.handleChange}></textarea>
+                    <label htmlFor="courses">Enter courses separated by comma</label>
+                </div>
 
-                    <div className="input-field">
-                        <textarea id="courses" className="materialize-textarea" onChange={this.handleChange}></textarea>
-                        <label htmlFor="courses">Enter courses separated by comma</label>
-                    </div>
+                <h6 className="grey-text text-darken-3">Blacklisted Students</h6>
 
-                    <h6 className="grey-text text-darken-3">Blacklisted Students</h6>
+                <div className="input-field">
+                    <textarea id="blacklistIDs" className="materialize-textarea" onChange={this.handleChange}></textarea>
+                    <label htmlFor="blacklistIDs">Enter student ID's separated by comma</label>
+                </div>
 
-                    <div className="input-field">
-                        <textarea id="blacklistIDs" className="materialize-textarea" onChange={this.handleChange}></textarea>
-                        <label htmlFor="blacklistIDs">Enter student ID's separated by comma</label>
-                    </div>
+                <div className="input-field">
+                    <button className="waves-effect waves-light btn deep-purple darken-1" onClick={this.handleSubmit}>Create Program</button>
+                </div>
+            </form>
+        </div>;
 
-                    <div className="input-field">
-                        <button className="waves-effect waves-light btn deep-purple darken-1" onClick={this.handleSubmit}>Create Program</button>
-                    </div>
-                </form>
-            </div>
-        )
+        // Admin Only
+        return auth.isLoaded && profile.isLoaded && (auth.uid && profile.token.claims.admin === true ? content : redirect);
+
     }
 }
 
 const mapStateToProps = (state) => {
     return {
         auth: state.firebase.auth,
-        profile: state.firebase.profile
+        profile: state.firebase.profile,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        createProgram: (program) => dispatch(createProgram(program))
+        createProgram: (program) => dispatch(createProgram(program)),
     }
 }
 

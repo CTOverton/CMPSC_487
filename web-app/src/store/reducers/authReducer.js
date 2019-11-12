@@ -36,6 +36,19 @@ const authReducer = (state = initState, action) => {
         authError: action.err.message
       }
 
+    case 'UPDATEROLES_SUCCESS':
+      console.log('update role success', action.result)
+      return {
+        ...state
+      }
+
+    case 'UPDATEROLES_ERROR':
+      console.log('update role error')
+      return {
+        ...state,
+        authError: action.err.message
+      }
+
     default:
       return state
   }
