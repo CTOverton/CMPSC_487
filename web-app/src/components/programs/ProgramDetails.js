@@ -7,54 +7,46 @@ import moment from 'moment'
 import ProjectSummary from "../projects/ProjectSummary";
 
 const ProgramDetails = (props) => {
-    const { program, auth } = props;
-    // if (!auth.uid) return <Redirect to='/signin' />
-    if (program) {
-        return (
+    const { program, auth, profile } = props;
+    const redirect = <Redirect to='/signin' />;
+
+    if (auth.uid) {
+        return auth.isLoaded && profile.isLoaded && (program ? (
             <div className="container section program-details">
                 <div className="card z-depth-0">
                     <div className="card-content">
                         <span className="card-title">{program.title}</span>
                         <p>{program.description}</p>
+
+
+                        <h4>Courses</h4>
+
+                        <ul className="courses-list collection">
+                            {program.courses && program.courses.map(course => {
+                                return (
+                                    <li className="collection-item" key={course}>{course}</li>
+                                )
+                            })}
+                        </ul>
+
+                        <div className="waves-effect waves-light btn deep-purple darken-1">Apply</div>
                     </div>
-
-                    <h4>Courses</h4>
-
-                    <ul className="courses-list collection">
-                        { program.courses && program.courses.map(course => {
-                            return (
-                                <li className="collection-item" key={course}>{course}</li>
-                            )
-                        })}
-                    </ul>
-
-
-                    <h4>Blacklisted IDs</h4>
-
-                    <ul className="blacklistIDs-list collection">
-                        { program.blacklistIDs && program.blacklistIDs.map(id => {
-                            return (
-                                <li className="collection-item" key={id}>{id}</li>
-                            )
-                        })}
-                    </ul>
-
-                    <div className="right">Something</div>
-
+                    {/*Footer*/}
                     <div className="card-action grey lighten-4 grey-text">
                         <div>Posted by {program.authorFirstName} {program.authorLastName}</div>
                         <div>{moment(program.createdAt.toDate()).calendar()}</div>
                     </div>
                 </div>
             </div>
-        )
-    } else {
-        return (
+        ) : (
             <div className="container center">
                 <p>Loading program...</p>
             </div>
-        )
+        ))
+    } else {
+        return auth.isLoaded && profile.isLoaded && redirect
     }
+
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -64,7 +56,8 @@ const mapStateToProps = (state, ownProps) => {
     const program = programs ? programs[id] : null
     return {
         program: program,
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        profile: state.firebase.profile
     }
 }
 

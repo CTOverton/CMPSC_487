@@ -11,7 +11,7 @@ const AdminLinks = (props) => {
                 <li><NavLink to='/createprogram'>Create Program</NavLink></li>
                 <li><NavLink to='/roles/edit'>Edit Roles</NavLink></li>
                 <li><a onClick={props.signOut}>Log Out</a></li>
-                <li><NavLink to='/' className="btn btn-floating deep-purple darken-1">
+                <li><NavLink to='/profile' className="btn btn-floating deep-purple darken-1">
                     {props.profile.initials}
                 </NavLink></li>
             </ul>

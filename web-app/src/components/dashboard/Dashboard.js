@@ -11,25 +11,21 @@ import ProgramList from "../programs/ProgramList";
 
 class Dashboard extends Component {
   render() {
-    const { projects, programs, auth, notifications } = this.props;
-    if (!auth.uid) return <Redirect to='/signin' /> 
-
-    return (
-      <div className="dashboard container">
-        <div className="row">
-          <div className="col s12 m6">
-            <ProjectList projects={projects} />
-          </div>
-
-          <div className="col s12 m6">
-            <ProgramList programs={programs} />
-          </div>
-          {/*<div className="col s12 m5 offset-m1">*/}
-          {/*  /!*<Notifications notifications={notifications} />*!/*/}
-          {/*</div>*/}
+    const { projects, programs, auth, notifications, profile } = this.props;
+    const redirect = <Redirect to='/signin' />;
+    const content = <div className="dashboard container">
+      <div className="row">
+        <div className="col s12">
+          <ProgramList programs={programs} />
         </div>
+        {/*<div className="col s12 m5 offset-m1">*/}
+        {/*  /!*<Notifications notifications={notifications} />*!/*/}
+        {/*</div>*/}
       </div>
-    )
+    </div>;
+
+    return auth.isLoaded && profile.isLoaded && (auth.uid ? content : redirect);
+
   }
 }
 
@@ -39,6 +35,7 @@ const mapStateToProps = (state) => {
     projects: state.firestore.ordered.projects,
     programs: state.firestore.ordered.programs,
     auth: state.firebase.auth,
+    profile: state.firebase.profile
     // notifications: state.firestore.ordered.notifications
   }
 }
