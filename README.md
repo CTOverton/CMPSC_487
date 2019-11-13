@@ -1,7 +1,9 @@
 # This app is live at
 [http://cmpsc-487.web.app/](http://cmpsc-487.web.app/)
 
+To request a testing admin account email: C@CTOverton.com
 
+---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
