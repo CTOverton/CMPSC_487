@@ -8,6 +8,8 @@ import moment from 'moment'
 const ProgramDetails = (props) => {
     const { program, auth, profile } = props;
     const redirect = <Redirect to='/signin' />;
+    const editBtn = auth.isLoaded && profile.isLoaded && (auth.uid ? (profile.token.claims.admin === true ? <Link to={"/program/" + program.id + "/edit"} className="waves-effect waves-light btn deep-purple darken-1">Edit</Link>: null) : null);
+    const applyBtn = auth.isLoaded && profile.isLoaded && (auth.uid ? (profile.token.claims.admin === true ? null: <Link to={"/program/" + program.id + "/apply"} className="waves-effect waves-light btn deep-purple darken-1">Apply</Link>) : null);
 
     if (auth.uid) {
         return auth.isLoaded && profile.isLoaded && (program ? (
@@ -28,7 +30,8 @@ const ProgramDetails = (props) => {
                             })}
                         </ul>
 
-                        <Link to={"/program/" + program.id + "/apply"} className="waves-effect waves-light btn deep-purple darken-1">Apply</Link>
+                        {editBtn}
+                        {applyBtn}
                     {/*    //Todo show submitted application*/}
                     </div>
                     {/*Footer*/}
