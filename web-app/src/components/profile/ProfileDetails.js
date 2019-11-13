@@ -83,8 +83,6 @@ class ProfileDetails extends Component {
             </form>*/}
         </div>;
 
-        console.log(auth, profile)
-
         // Show only if logged in
         return auth.isLoaded && profile.isLoaded && (auth.uid ? content : redirect);
     }

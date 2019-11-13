@@ -3,6 +3,10 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import {Link, Redirect} from 'react-router-dom'
+import ProfileDetails from "../profile/ProfileDetails";
+import { Collapsible, CollapsibleItem, Icon, Switch, Checkbox } from 'react-materialize'
+import {createProgram} from "../../store/actions/programActions";
+import {saveApplication} from "../../store/actions/applicationActions";
 
 class Apply extends Component {
     state = {
@@ -10,19 +14,45 @@ class Apply extends Component {
         gpa: '',
         gre: '',
         sop: '',
-        documents: []
+        is: true, //Todo add international student and TOEFLScore
+        toefl: '',
+        documents: [],
+        completedCourses: []
     }
 
     handleChange = (e) => {
+        let v;
+        switch (e.target.id) {
+            case "completedCourses":
+                v = e.target.value.split(',');
+                break;
+            case "is":
+                v = !this.state.is;
+                break;
+            default:
+                v = e.target.value;
+        }
+
         this.setState({
-            [e.target.id]: e.target.value
+            [e.target.id]: v
         })
     }
     handleSave = (e) => {
-        console.log(this.state)
+        this.props.saveApplication({
+            ...this.props.application && {id: this.props.application.id},
+            programId: this.props.programId,
+            isDraft: true,
+            studentData: {...this.state}
+        })
     }
     handleSubmit = (e) => {
         console.log(this.state)
+        console.log({
+            ...this.props.application && {id: this.props.application.id},
+            programId: this.props.programId,
+            isDraft: true,
+            studentData: {...this.state}
+        })
     }
     handleDefault = (e) => {
         e.preventDefault();
@@ -35,6 +65,8 @@ class Apply extends Component {
             <form className="white" onSubmit={this.handleDefault}>
 
                 <h3>Application Details</h3>
+
+                <ProfileDetails props={this.props} />
 
                 <div className="section">
                     <div className="input-field">
@@ -49,6 +81,12 @@ class Apply extends Component {
                         <label htmlFor="gre">GRE</label>
                         <input type="number" id='gre' onChange={this.handleChange} />
                     </div>
+                    <div className="input-field">
+                        <textarea id="completedCourses" className="materialize-textarea" onChange={this.handleChange}></textarea>
+                        <label htmlFor="courses">Enter completed courses separated by comma</label>
+                    </div>
+
+
 
 
                     <div className="file-field input-field">
@@ -70,6 +108,17 @@ class Apply extends Component {
                             <input id="documents" className="file-path validate" type="text" placeholder="Documents"/>
                         </div>
                     </div>
+
+
+                    {/* Works except clicking on collapsable needs to be disabled somehow*/}
+{/*                    <Collapsible accordion={false}>
+                        <CollapsibleItem
+                            header={<Checkbox id="is" value="Red" label="International Student" checked={this.state.is} onChange={this.handleChange}/>}
+                            expanded={this.state.is}>
+                            Better safe than sorry. That's my motto.
+                        </CollapsibleItem>
+                    </Collapsible>*/}
+
                 </div>
 
                 <div className="section">
@@ -84,7 +133,7 @@ class Apply extends Component {
             </form>
         </div>;
 
-        // Student Only TODO: Check if
+        // Student Only
         return auth.isLoaded && profile.isLoaded && (auth.uid && !(profile.token.claims.admin === true) ? content : redirect);
     }
 
@@ -94,17 +143,36 @@ class Apply extends Component {
 const mapStateToProps = (state, ownProps) => {
     const id = ownProps.match.params.id;
     const programs = state.firestore.data.programs;
+    const applications = state.firestore.data.applications;
+    let application;
+    if (applications) {
+        for (const [key, value] of Object.entries(applications)) {
+            application = value.programId === id ? {...applications[key],id: key} : null;
+        }
+    } else {
+        application = null;
+    }
+
     const program = programs ? programs[id] : null;
     return {
-        program: program,
         auth: state.firebase.auth,
-        profile: state.firebase.profile
+        profile: state.firebase.profile,
+        program: program,
+        application: application,
+        programId: id
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        saveApplication: (application) => dispatch(saveApplication(application)),
     }
 }
 
 export default compose(
-    connect(mapStateToProps),
+    connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect([
-        {collection: 'programs'}
-    ])
+        {collection: 'programs'},
+        {collection: 'applications'}
+        ])
 )(Apply)

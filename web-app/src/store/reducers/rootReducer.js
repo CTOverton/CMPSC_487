@@ -4,11 +4,13 @@ import { firebaseReducer } from 'react-redux-firebase'
 import authReducer from './authReducer'
 import projectReducer from './projectReducer'
 import programReducer from "./programReducer";
+import applicationReducer from "./applicationReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   project: projectReducer,
   program: programReducer,
+  application: applicationReducer,
   firestore: firestoreReducer,
   firebase: firebaseReducer
 });
