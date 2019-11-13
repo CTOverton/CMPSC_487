@@ -8,6 +8,8 @@ import SignUp from './components/auth/SignUp'
 import CreateProgram from "./components/programs/CreateProgram";
 import ProgramDetails from "./components/programs/ProgramDetails";
 import UpdateRoles from "./components/auth/UpdateRoles";
+import StudentApplicationInfo from "./components/Application/StudentApplicationInfo";
+
 
 class App extends Component {
   render() {
@@ -23,6 +25,8 @@ class App extends Component {
             <Route path='/signup' component={SignUp} />
             <Route path='/roles/edit' component={UpdateRoles} />
             <Route path='/createprogram' component={CreateProgram} />
+            <Route path='/studentApplicationInfo' component={StudentApplicationInfo} />
+
           </Switch>
         </div>
       </BrowserRouter>

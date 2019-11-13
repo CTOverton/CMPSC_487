@@ -9,7 +9,7 @@ class CreateProgram extends Component {
         description: '',
         courses: [],
         blacklistIDs: [],
-    }
+    };
 
     handleChange = (e) => {
         if (e.target.id === "courses" || e.target.id === "blacklistIDs") {
@@ -23,13 +23,13 @@ class CreateProgram extends Component {
             })
         }
 
-    }
+    };
     handleSubmit = (e) => {
         e.preventDefault();
         // console.log(this.state);
         this.props.createProgram(this.state);
         this.props.history.push('/');
-    }
+    };
 
     checkAcces = (allowedRoles, deniedRoles, profile) => {
         // !profile.isEmpty && profile.token.claims[accessRole]
@@ -49,7 +49,7 @@ class CreateProgram extends Component {
                 return false;
             }
         });
-    }
+    };
 
     render() {
         const { auth, profile } = this.props;
@@ -96,12 +96,12 @@ const mapStateToProps = (state) => {
         auth: state.firebase.auth,
         profile: state.firebase.profile,
     }
-}
+};
 
 const mapDispatchToProps = dispatch => {
     return {
         createProgram: (program) => dispatch(createProgram(program)),
     }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateProgram)
