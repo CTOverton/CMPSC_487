@@ -25,8 +25,9 @@ class ProfileDetails extends Component {
         const { auth, profile, authError } = this.props;
         // const { details } = profile;
         const details  = [
-            {key:'name', value: 'christian', icon: 'email'},
-            {key:'phone', value: '484-723-3990', icon: 'close'}
+            {key:'email', value: auth.email, icon: 'email'},
+            {key:'firstName', value: profile.firstName, icon: 'face'},
+            {key:'lastName', value: profile.lastName, icon: 'face'},
         ];
 
         const redirect = <Redirect to='/signin' />;
@@ -37,12 +38,9 @@ class ProfileDetails extends Component {
             <div className="section">
                 <h5 className="grey-text text-darken-3">Profile Details</h5>
                 <Collapsible>
-                    <CollapsibleItem header={<div>Email: {auth.email}</div>} icon={<Icon>email</Icon>} key="email">
-                        Edit
-                    </CollapsibleItem>
                     {details && details.map(detail => {
                         return (
-                            <CollapsibleItem header={<div>{detail.key}: {detail.value}</div>} icon={<Icon>{detail.icon}</Icon>} key={detail.key}>
+                            <CollapsibleItem header={<div>{detail.value}</div>} icon={<Icon>{detail.icon}</Icon>} key={detail.key}>
                                 <div className="input-field">
                                     <label htmlFor={detail.key}>{detail.key}</label>
                                     <input type="text" id={detail.key} />

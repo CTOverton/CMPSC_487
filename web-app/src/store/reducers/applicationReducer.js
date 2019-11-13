@@ -8,6 +8,12 @@ const applicationReducer = (state = initState, action) => {
         case 'CREATE_APPLICATION_ERROR':
             console.log('create application error');
             return state;
+        case 'ADD_APPLICATION_TO_USER_SUCCESS':
+            console.log('add application to user success');
+            return state;
+        case 'ADD_APPLICATION_TO_USER_ERROR':
+            console.log('add application to user error');
+            return state;
         default:
             return state;
     }

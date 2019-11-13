@@ -21,7 +21,16 @@ export const saveApplication = (application) => {
             });
         } else {
             firestore.collection('applications').add(data)
-                .then(() => {
+                .then((doc) => {
+                    firestore.collection('users').doc(authorId).set({
+                        applications: profile.applications ? [...profile.applications, doc.id] : [doc.id]
+                    }, { merge: true })
+                        .then(() => {
+                            dispatch({ type: 'ADD_APPLICATION_TO_USER_SUCCESS' });
+                        }).catch(err => {
+                        dispatch({ type: 'ADD_APPLICATION_TO_USER_ERROR' }, err);
+                    });
+
                     dispatch({ type: 'CREATE_APPLICATION_SUCCESS' });
                 }).catch(err => {
                     dispatch({ type: 'CREATE_APPLICATION_ERROR' }, err);
