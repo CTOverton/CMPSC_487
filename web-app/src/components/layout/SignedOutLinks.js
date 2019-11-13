@@ -1,12 +1,13 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import {NavItem} from "react-materialize";
 
 const SignedOutLinks = () => {
   return (
     <div>
-      <ul className="right">
-        <li><NavLink to='/signup'>Signup</NavLink></li>
-        <li><NavLink to='/signin'>Login</NavLink></li>
+      <ul>
+          <li><NavItem><NavLink to='/signup'>Signup</NavLink></NavItem></li>
+          <li><NavItem><NavLink to='/signin'>Login</NavLink></NavItem></li>
       </ul>
     </div>
   )

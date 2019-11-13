@@ -2,16 +2,17 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { signOut } from '../../store/actions/authActions'
+import {NavItem} from "react-materialize";
 
 const StudentLinks = (props) => {
   return (
     <div>
-      <ul className="right">
-        <li><NavLink to='/'>Home</NavLink></li>
-        <li><a onClick={props.signOut}>Log Out</a></li>
-        <li><NavLink to='/profile' className="btn btn-floating pink lighten-1">
+      <ul>
+        <li><NavItem><NavLink to='/'>Home</NavLink></NavItem></li>
+        <li><NavItem><div onClick={props.signOut}>Log Out</div></NavItem></li>
+        <li><NavItem><NavLink to='/profile' className="btn btn-floating pink lighten-1">
           {props.profile.initials}
-        </NavLink></li>
+        </NavLink></NavItem></li>
       </ul>
     </div>
   )
