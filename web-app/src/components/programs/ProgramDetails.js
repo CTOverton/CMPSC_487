@@ -4,7 +4,6 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import {Link, Redirect} from 'react-router-dom'
 import moment from 'moment'
-import ProjectSummary from "../projects/ProjectSummary";
 
 const ProgramDetails = (props) => {
     const { program, auth, profile } = props;
@@ -29,7 +28,8 @@ const ProgramDetails = (props) => {
                             })}
                         </ul>
 
-                        <div className="waves-effect waves-light btn deep-purple darken-1">Apply</div>
+                        <Link to={"/program/" + program.id + "/apply"} className="waves-effect waves-light btn deep-purple darken-1">Apply</Link>
+                    {/*    //Todo show submitted application*/}
                     </div>
                     {/*Footer*/}
                     <div className="card-action grey lighten-4 grey-text">
@@ -50,12 +50,11 @@ const ProgramDetails = (props) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    // console.log(state);
     const id = ownProps.match.params.id;
     const programs = state.firestore.data.programs;
-    const program = programs ? programs[id] : null
+    const program = programs ? programs[id] : null;
     return {
-        program: program,
+        program: {...program, id: id},
         auth: state.firebase.auth,
         profile: state.firebase.profile
     }

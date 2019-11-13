@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import SignedInLinks from './SignedInLinks'
+import SignedInLinks from './StudentLinks'
 import SignedOutLinks from './SignedOutLinks'
 import { connect } from 'react-redux'
 import AdminLinks from "./AdminLinks";
