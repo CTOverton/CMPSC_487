@@ -12,7 +12,7 @@ const NavbarComponent = (props) => {
 
   // Todo fix this garbage
   return (
-      <Navbar className="grey darken-3" brand={<Link to='/' className="brand-logo" style={{paddingLeft: "40px"}}>Web App</Link>} alignLinks="right">
+      <Navbar className="grey darken-3" brand={<Link to='/' className="brand-logo" style={{paddingLeft: "40px"}}>Admissions System</Link>} alignLinks="right">
         {links}
       </Navbar>
   )

@@ -17,15 +17,11 @@ class Apply extends Component {
         is: true, //Todo add international student and TOEFLScore
         toefl: '',
         documents: [],
-        completedCourses: []
     }
 
     handleChange = (e) => {
         let v;
         switch (e.target.id) {
-            case "completedCourses":
-                v = e.target.value.split(',');
-                break;
             case "is":
                 v = !this.state.is;
                 break;
@@ -81,13 +77,6 @@ class Apply extends Component {
                         <label htmlFor="gre">GRE</label>
                         <input type="number" id='gre' onChange={this.handleChange} />
                     </div>
-                    <div className="input-field">
-                        <textarea id="completedCourses" className="materialize-textarea" onChange={this.handleChange}></textarea>
-                        <label htmlFor="courses">Enter completed courses separated by comma</label>
-                    </div>
-
-
-
 
                     <div className="file-field input-field">
                         <div className="btn">

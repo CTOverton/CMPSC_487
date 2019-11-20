@@ -1,8 +1,19 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## How to setup project
 
-In the project directory, you can run:
+#### 1. Clone Repository by clicking "Clone or download"
+#### 2. Open terminal and `cd web-app`
+#### 3. For first install run `npm install`
+#### 3. To run the web app `npm start`
+
+## How to contribute
+
+Once project is setup, create a new branch and label it with your name. 
+
+Once you've made changes commit and push your branch
+
+## List of Commands
 
 ### `npm start`
 
