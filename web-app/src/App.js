@@ -7,7 +7,7 @@ import SignIn from './components/auth/SignIn'
 import SignUp from './components/auth/SignUp'
 import CreateProgram from "./components/programs/CreateProgram";
 import ProgramDetails from "./components/programs/ProgramDetails";
-import UpdateRoles from "./components/auth/UpdateRoles";
+import UpdateRoles from "./components/auth/ManageUsers";
 import ProfileDetails from "./components/profile/ProfileDetails";
 import TemplateComponent from "./components/template/TemplateComponent";
 import Apply from "./components/applications/Apply";

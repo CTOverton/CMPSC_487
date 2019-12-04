@@ -59,3 +59,46 @@ export const updateRoles = (user) => {
     })
   }
 }
+
+export const createUser = (user, customClaims) => {
+  return (dispatch, getState, {getFirebase}) => {
+    const firebase = getFirebase();
+    const createUser = firebase.functions().httpsCallable('createUser');
+    createUser(user, customClaims).then(result => {
+      dispatch({ type: 'CREATEUSER_SUCCESS', result });
+    }).catch(err => {
+      dispatch({ type: 'CREATEUSER_ERROR', err });
+    })
+  }
+}
+
+export const deleteUser = (uid) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+    const deleteUser = firebase.functions().httpsCallable('deleteUser');
+
+    firestore.collection('users').doc(uid).delete()
+        .then(() => {
+      console.log("Document successfully deleted!");
+    }).catch(err => {
+      console.error("Error removing document: ", err);
+    });
+
+    firestore.collection("applications").where("authorId", "==", uid).get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            firestore.collection("applications").doc(doc.id).delete();
+          });
+        })
+        .catch(err => {
+          console.log("Error getting documents: ", err);
+        });
+
+    deleteUser(uid).then(result => {
+      dispatch({ type: 'DELETEUSER_SUCCESS', result });
+    }).catch(err => {
+      dispatch({ type: 'DELETEUSER_ERROR', err });
+    })
+  }
+}

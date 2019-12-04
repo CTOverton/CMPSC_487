@@ -4,8 +4,9 @@ import { updateRoles } from '../../store/actions/authActions'
 import {Link, NavLink, Redirect} from 'react-router-dom'
 import {compose} from "redux";
 import {firestoreConnect} from "react-redux-firebase";
+import UsersList from "./UsersList";
 
-class UpdateRoles extends Component {
+class ManageUsers extends Component {
     state = {
         email: ''
     }
@@ -39,8 +40,9 @@ class UpdateRoles extends Component {
         const redirect =  <Redirect to='/' />;
         const content =  <div className="container">
 
+            <UsersList users={users}/>
 
-            <ul className="collection with-header">
+            {/*<ul className="collection with-header">
                 <li className="collection-header"><h4>First Names</h4></li>
 
                 { users && users.map(user => {
@@ -65,7 +67,7 @@ class UpdateRoles extends Component {
                                          data-id={user.id}
                                     >Make Admin</div>
 
-                                    {/*<div className="switch">
+                                    <div className="switch">
                                         <label>
                                             Student
                                             <input type="checkbox" id='role' onClick={this.handleChange}
@@ -77,14 +79,14 @@ class UpdateRoles extends Component {
                                             <span className="lever"></span>
                                             Admin
                                         </label>
-                                    </div>*/}
+                                    </div>
                                 </div>
 
                             </div>
                         </li>
                     )
                 })}
-            </ul>
+            </ul>*/}
 
 
             {/*<form className="white" onSubmit={this.handleSubmit}>
@@ -131,4 +133,4 @@ export default compose(
     firestoreConnect([
         { collection: 'users'},
     ])
-)(UpdateRoles)
+)(ManageUsers)

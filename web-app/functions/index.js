@@ -2,6 +2,29 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
+exports.createUser = functions.https.onCall((userRecord, customClaims) => {
+    return admin.auth().createUser(userRecord)
+        .then(userRecord => {
+            if (customClaims) {
+                admin.auth().setCustomUserClaims(userRecord.uid, customClaims)
+                    .then(() => {
+                        return {
+                            message: `Successfully created new user: ${userRecord.uid}, with claims ${customClaims}`
+                        }
+                    })
+                    .catch(err => {
+                        return err
+                    })
+            }
+            return {
+                message: `Successfully created new user: ${userRecord.uid}`
+            }
+        })
+        .catch(err => {
+            return err;
+        })
+});
+
 exports.updateRole = functions.https.onCall((data, context) => {
     return admin.auth().getUserByEmail(data.email).then(user => {
         if (data.role === 'admin') {
@@ -21,6 +44,18 @@ exports.updateRole = functions.https.onCall((data, context) => {
     }).catch(err => {
         return err;
     })
+});
+
+exports.deleteUser = functions.https.onCall((uid) => {
+    return admin.auth().deleteUser(uid)
+        .then(() => {
+            return {
+                message: `Successfully deleted user: ${uid}`
+            }
+        })
+        .catch(err => {
+            return err;
+        })
 });
 
 /*const createNotification = ((notification) => {
