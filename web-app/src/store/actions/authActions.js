@@ -95,10 +95,28 @@ export const deleteUser = (uid) => {
           console.log("Error getting documents: ", err);
         });
 
-    deleteUser(uid).then(result => {
-      dispatch({ type: 'DELETEUSER_SUCCESS', result });
-    }).catch(err => {
-      dispatch({ type: 'DELETEUSER_ERROR', err });
+    deleteUser(uid)
+        .then(result => {
+          dispatch({ type: 'DELETEUSER_SUCCESS', result });
+        }).catch(err => {
+          dispatch({ type: 'DELETEUSER_ERROR', err });
+    })
+  }
+}
+
+export const setClaims = (uid, claims) => {
+
+  console.log(uid,claims)
+  return (dispatch, getState, {getFirebase}) => {
+    const firebase = getFirebase();
+    const setCustomClaims = firebase.functions().httpsCallable('setCustomClaims');
+    setCustomClaims(uid, {
+      admin: true
+    })
+        .then(result => {
+          dispatch({ type: 'SETCLAIMS_SUCCESS', result });
+        }).catch(err => {
+          dispatch({ type: 'SETCLAIMS_ERROR', err });
     })
   }
 }

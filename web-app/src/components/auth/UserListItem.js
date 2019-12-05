@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { CollectionItem, Button, Row, Col, Modal, Dropdown, TextInput } from 'react-materialize'
-import {deleteUser, updateRoles} from "../../store/actions/authActions";
+import {deleteUser, updateRoles, setClaims} from "../../store/actions/authActions";
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {firestoreConnect} from "react-redux-firebase";
@@ -14,7 +14,13 @@ class UserListItem extends Component {
     changeRole = (e) => {
         this.setState({
             role: e.target.id
+        });
+
+        console.log(this.props);
+        this.props.setClaims(this.props.user.id, {
+            [e.target.id]: true
         })
+
     };
 
     changeDepartment = (e) => {
@@ -114,7 +120,8 @@ class UserListItem extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         updateRoles: (user) => dispatch(updateRoles(user)),
-        deleteUser: (uid) => dispatch(deleteUser(uid))
+        deleteUser: (uid) => dispatch(deleteUser(uid)),
+        setClaims: (uid, claims) => dispatch(setClaims(uid,claims))
     }
 }
 

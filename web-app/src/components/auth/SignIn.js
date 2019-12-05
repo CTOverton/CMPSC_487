@@ -6,8 +6,9 @@ import {NavLink, Redirect} from 'react-router-dom'
 class SignIn extends Component {
   state = {
     email: '',
-    password: ''
+    password: '',
   }
+
   handleChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value

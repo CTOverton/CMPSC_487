@@ -46,6 +46,26 @@ exports.updateRole = functions.https.onCall((data, context) => {
     })
 });
 
+exports.setCustomClaims = functions.https.onCall((uid, claims) => {
+
+    return {
+        message: `Idk what is happening`,
+        claimsVar: claims,
+        working: {admin: true}
+    }
+
+  /*  return admin.auth().setCustomUserClaims(uid, {admin: true})
+        .then(() => {
+            return {
+                message: `Successfully added claims to user: ${uid}`
+            }
+        })
+        .catch(err => {
+            return err
+    })*/
+});
+
+
 exports.deleteUser = functions.https.onCall((uid) => {
     return admin.auth().deleteUser(uid)
         .then(() => {

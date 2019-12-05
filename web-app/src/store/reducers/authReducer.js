@@ -76,6 +76,19 @@ const authReducer = (state = initState, action) => {
         authError: action.err.message
       }
 
+    case 'SETCLAIMS_SUCCESS':
+      console.log('set user claims success', action.result)
+      return {
+        ...state
+      }
+
+    case 'SETCLAIMS_ERROR':
+      console.log('set user claims error', action.err.message)
+      return {
+        ...state,
+        authError: action.err.message
+      }
+
     default:
       return state
   }
