@@ -7,9 +7,11 @@ import ProfileDetails from "../profile/ProfileDetails";
 import { Collapsible, CollapsibleItem, Icon, Switch, Checkbox } from 'react-materialize'
 import {createProgram} from "../../store/actions/programActions";
 import {saveApplication} from "../../store/actions/applicationActions";
+import ProgramDetails from "../programs/ProgramDetails";
 
 class Apply extends Component {
     state = {
+        program: '',
         undergradDegree: '',
         gpa: '',
         gre: '',
@@ -17,6 +19,7 @@ class Apply extends Component {
         is: true, //Todo add international student and TOEFLScore
         toefl: '',
         documents: [],
+        date: new Date()
     }
 
     handleChange = (e) => {
@@ -54,8 +57,15 @@ class Apply extends Component {
         e.preventDefault();
     }
 
+    getDate = () => {
+        var date = new Date().toDateString();
+        this.setState({ date });
+    };
+
     render() {
-        const { program, auth, profile } = this.props;
+        const {  auth, profile } = this.props;
+        const program = ProgramDetails.title;
+        const { date } = this.state;
         const redirect = <Redirect to='/' />;
         const content = <div className="container">
             <form className="white" onSubmit={this.handleDefault}>
@@ -119,6 +129,9 @@ class Apply extends Component {
                     </div>
                 </div>
 
+                <div className="date">
+                    <p> Date of application submission: {this.state.date.toLocaleDateString()}</p>
+                </div>
             </form>
         </div>;
 

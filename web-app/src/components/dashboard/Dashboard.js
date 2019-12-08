@@ -16,9 +16,11 @@ class Dashboard extends Component {
     const redirect = <Redirect to='/signin' />;
     const content = <div className="dashboard container">
       <div className="row">
-        <div className="col s12 m6">
+        <div className="col s12 m6 " >
           <h4 className="grey-text">Graduate Programs</h4>
+
           <ProgramList programs={programs} />
+
         </div>
         <div className="col s12 m6">
           <h4 className="grey-text">My Applications</h4>
@@ -29,6 +31,7 @@ class Dashboard extends Component {
         {/*</div>*/}
       </div>
     </div>;
+
 
     return auth.isLoaded && profile.isLoaded && (auth.uid ? content : redirect);
 

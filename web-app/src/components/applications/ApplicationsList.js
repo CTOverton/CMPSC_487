@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from "react-router-dom";
 import moment from "moment";
+import Apply from "./Apply";
 
 const ApplicationsList = ({applications, profile}) => {
     console.log(applications)
@@ -20,6 +21,7 @@ const ApplicationsList = ({applications, profile}) => {
                             }
                         })}
                     </ul>
+                    <p>applications.</p>
                 </div>
             </div>
         </div>
