@@ -21,7 +21,7 @@ const ApplicationsList = ({applications, profile}) => {
                             }
                         })}
                     </ul>
-                    <p>applications.</p>
+
                 </div>
             </div>
         </div>

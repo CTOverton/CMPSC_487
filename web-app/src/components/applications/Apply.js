@@ -63,8 +63,8 @@ class Apply extends Component {
     };
 
     render() {
-        const {  auth, profile } = this.props;
-        const program = ProgramDetails.title;
+        const { program, auth, profile } = this.props;
+        //const program = ProgramDetails.title;
         const { date } = this.state;
         const redirect = <Redirect to='/' />;
         const content = <div className="container">
@@ -159,7 +159,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         auth: state.firebase.auth,
         profile: state.firebase.profile,
-        program: program,
+        program: program.title,
         application: application,
         programId: id
     }

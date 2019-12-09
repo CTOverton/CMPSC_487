@@ -9,6 +9,8 @@ class CreateProgram extends Component {
         description: '',
         courses: [],
         blacklistIDs: [],
+        gpa: ' ',
+        gre: ' '
     }
 
     handleChange = (e) => {
@@ -65,6 +67,16 @@ class CreateProgram extends Component {
                     <textarea id="description" className="materialize-textarea" onChange={this.handleChange}></textarea>
                     <label htmlFor="description">Program Description</label>
                 </div>
+
+                <h6 className="grey-text text-darken-3">Blacklisted Students</h6>
+
+                <div className="input-field">
+                    <textarea id="blacklistIDs" className="materialize-textarea" onChange={this.handleChange}></textarea>
+                    <label htmlFor="blacklistIDs">Enter student ID's separated by comma</label>
+                </div>
+
+                <h5 className="grey-text text-darken-3">Program Requirements</h5>
+
                 <h6 className="grey-text text-darken-3">Courses</h6>
 
                 <div className="input-field">
@@ -72,11 +84,18 @@ class CreateProgram extends Component {
                     <label htmlFor="courses">Enter courses separated by comma</label>
                 </div>
 
-                <h6 className="grey-text text-darken-3">Blacklisted Students</h6>
+                <h6 className="grey-text text-darken-3">GPA Requirement</h6>
 
                 <div className="input-field">
-                    <textarea id="blacklistIDs" className="materialize-textarea" onChange={this.handleChange}></textarea>
-                    <label htmlFor="blacklistIDs">Enter student ID's separated by comma</label>
+                    <input type="number" id='gpa' onChange={this.handleChange} />
+                    <label htmlFor="gpa">GPA</label>
+                </div>
+
+                <h6 className="grey-text text-darken-3">GRE Requirement</h6>
+
+                <div className="input-field">
+                    <input type="number" id='gre' onChange={this.handleChange} />
+                    <label htmlFor="gre">GRE</label>
                 </div>
 
                 <div className="input-field">
