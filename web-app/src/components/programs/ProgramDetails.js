@@ -33,7 +33,7 @@ const ProgramDetails = (props) => {
                         <h4>Additional Requirements</h4>
 
                         <h6>GPA</h6>
-                        <p>Minimum - {program.gpa} cumulative</p>
+                        <p>Minimum - {program.gpa}</p>
 
                         <h6>GRE</h6>
                         <p>Minimum - {program.gre}</p>
