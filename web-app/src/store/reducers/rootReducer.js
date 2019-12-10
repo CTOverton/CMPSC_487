@@ -5,12 +5,14 @@ import authReducer from './authReducer'
 import projectReducer from './projectReducer'
 import programReducer from "./programReducer";
 import applicationReducer from "./applicationReducer";
+import staffReducer from "./staffReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   project: projectReducer,
   program: programReducer,
   application: applicationReducer,
+  staff: staffReducer,
   firestore: firestoreReducer,
   firebase: firebaseReducer
 });

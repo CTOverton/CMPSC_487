@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { CollectionItem, Button, Row, Col, Modal, Dropdown, TextInput } from 'react-materialize'
-import {deleteUser, updateRoles, setClaims} from "../../store/actions/authActions";
+import {deleteUser, setClaims, setDepartment} from "../../store/actions/authActions";
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {firestoreConnect} from "react-redux-firebase";
@@ -8,7 +8,7 @@ import {firestoreConnect} from "react-redux-firebase";
 class UserListItem extends Component {
     state = {
         role: '',
-        department: ''
+        department: this.props.user.department ? this.props.user.department : ''
     };
 
     changeRole = (e) => {
@@ -16,8 +16,7 @@ class UserListItem extends Component {
             role: e.target.id
         });
 
-        console.log(this.props);
-        this.props.setClaims(this.props.user.id, {
+        this.props.setClaims(this.props.user.id,{
             [e.target.id]: true
         })
 
@@ -27,6 +26,8 @@ class UserListItem extends Component {
         this.setState({
             department: e.target.id
         })
+
+        this.props.setDepartment(this.props.user.id,e.target.id)
     };
 
     render() {
@@ -119,9 +120,9 @@ class UserListItem extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateRoles: (user) => dispatch(updateRoles(user)),
         deleteUser: (uid) => dispatch(deleteUser(uid)),
-        setClaims: (uid, claims) => dispatch(setClaims(uid,claims))
+        setClaims: (uid, claims) => dispatch(setClaims(uid, claims)),
+        setDepartment: (uid, department) => dispatch(setDepartment(uid, department))
     }
 }
 
