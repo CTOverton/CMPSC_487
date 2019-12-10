@@ -20,15 +20,27 @@ class ManageUsers extends Component {
             });
         }
         if (e.target.id === 'makeAdmin') {
+                this.props.updateRoles({
+                    email: e.target.dataset.email,
+                    role: 'admin'
+                });
+
+        }
+
+        if (e.target.id === 'makeStaff') {
             this.props.updateRoles({
                 email: e.target.dataset.email,
-                role: 'admin'
+                role: 'staff'
             });
         }
+
+
         this.setState({
             [e.target.id]: e.target.value
         })
-    }
+    };
+
+
     handleSubmit = (e) => {
         e.preventDefault();
         // this.props.signIn(this.state)

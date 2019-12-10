@@ -11,7 +11,7 @@ import ProgramDetails from "../programs/ProgramDetails";
 
 class Apply extends Component {
     state = {
-        program: '',
+        program: this.props.program.id,
         undergradDegree: '',
         gpa: '',
         gre: '',
@@ -64,13 +64,13 @@ class Apply extends Component {
 
     render() {
         const { program, auth, profile } = this.props;
-        //const program = ProgramDetails.title;
         const { date } = this.state;
         const redirect = <Redirect to='/' />;
         const content = <div className="container">
             <form className="white" onSubmit={this.handleDefault}>
 
                 <h3>Application Details</h3>
+
 
                 <ProfileDetails props={this.props} />
 
@@ -159,7 +159,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         auth: state.firebase.auth,
         profile: state.firebase.profile,
-        program: program.title,
+        program: program,
         application: application,
         programId: id
     }

@@ -11,6 +11,7 @@ import UpdateRoles from "./components/auth/ManageUsers";
 import ProfileDetails from "./components/profile/ProfileDetails";
 import TemplateComponent from "./components/template/TemplateComponent";
 import Apply from "./components/applications/Apply";
+import MyApplications from "./components/applications/MyApplications";
 
 class App extends Component {
   render() {
@@ -32,6 +33,10 @@ class App extends Component {
             <Route path='/profile' component={ProfileDetails} />
 
             <Route path='/createprogram' component={CreateProgram} />
+            <Route path='/myapplications' component={MyApplications} />
+
+
+
 
 
             <Route path='/templatetesting' component={TemplateComponent}/>

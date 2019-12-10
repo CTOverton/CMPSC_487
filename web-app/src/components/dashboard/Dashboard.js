@@ -15,17 +15,24 @@ class Dashboard extends Component {
     const { programs, applications, auth, profile } = this.props;
     const redirect = <Redirect to='/signin' />;
     const content = <div className="dashboard container">
-      <div className="row">
-        <div className="col s12 m6 " >
-          <h4 className="white-text">Graduate Programs</h4>
+      <div className="column">
+
+        <div>
+
+        <div className="center col s12 m6 " >
+          <h4  className="center white-text" >Graduate Programs</h4>
 
           <ProgramList programs={programs} />
+        </div>
 
         </div>
-        <div className="col s12 m6">
-          <h4 className="white-text">My Applications</h4>
-          <ApplicationsList applications={applications} profile={profile}/>
-        </div>
+
+        {/*<div className="col s12 m6">*/}
+        {/*  <h4 className="white-text">My Applications</h4>*/}
+        {/*  <ApplicationsList applications={applications} profile={profile}/>*/}
+        {/*</div>*/}
+
+
         {/*<div className="col s12 m5 offset-m1">*/}
         {/*  /!*<Notifications notifications={notifications} />*!/*/}
         {/*</div>*/}

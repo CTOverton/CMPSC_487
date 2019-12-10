@@ -4,7 +4,7 @@ import moment from "moment";
 import Apply from "./Apply";
 
 const ApplicationsList = ({applications, profile}) => {
-    console.log(applications)
+    console.log(applications, profile)
     return (
         <div className="application-list section">
             <div className="card z-depth-0">

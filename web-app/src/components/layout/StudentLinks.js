@@ -9,6 +9,7 @@ const StudentLinks = (props) => {
     <div>
       <ul>
         <li><NavItem><NavLink to='/'>Home</NavLink></NavItem></li>
+        <li><NavItem><NavLink to='/myapplications'>My Applications</NavLink></NavItem></li>
         <li><NavItem><div onClick={props.signOut}>Log Out</div></NavItem></li>
         <li><NavItem><NavLink to='/profile' className="btn btn-floating pink lighten-1">
           {props.profile.initials}
