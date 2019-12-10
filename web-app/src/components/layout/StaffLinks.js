@@ -11,7 +11,7 @@ const StaffLinks = (props) => {
                 <li><NavItem><NavLink to='/'>Home</NavLink></NavItem></li>
                 <li><NavItem><NavLink to='/createprogram'>Create Program</NavLink></NavItem></li>
                 <li><NavItem onClick={props.signOut}>Log Out</NavItem></li>
-                <li><NavItem><NavLink to='/profile' className="btn btn-floating deep-blue darken-1">
+                <li><NavItem><NavLink to='/profile' className="btn btn-floating blue darken-3">
                     {props.profile.initials}
                 </NavLink></NavItem></li>
             </ul>

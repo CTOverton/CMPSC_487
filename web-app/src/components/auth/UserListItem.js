@@ -7,7 +7,7 @@ import {firestoreConnect} from "react-redux-firebase";
 
 class UserListItem extends Component {
     state = {
-        role: '',
+        role: this.props.user.claims ? Object.keys(this.props.user.claims)[0] : '',
         department: this.props.user.department ? this.props.user.department : ''
     };
 
@@ -31,7 +31,7 @@ class UserListItem extends Component {
     };
 
     render() {
-        const user = this.props.user;
+        const {departments, user} = this.props;
         return (
             <CollectionItem>
                 <Row>
@@ -88,15 +88,14 @@ class UserListItem extends Component {
                                     }}
                                     trigger={<Button node="button">{(this.state.department === '')? "Edit Department": "Department: " + this.state.department}</Button>}
                                 >
-                                    <a id="Department1" onClick={this.changeDepartment}>
-                                        Department1
-                                    </a>
-                                    <a id="Department2" onClick={this.changeDepartment}>
-                                        Department2
-                                    </a>
-                                    <a id="Department3" onClick={this.changeDepartment}>
-                                        Department3
-                                    </a>
+
+                                    { departments && departments.map(department => {
+                                        return (
+                                            <a id={department.name} key={department.id} onClick={this.changeDepartment}>
+                                                {department.name}
+                                            </a>
+                                        )
+                                    })}
                                 </Dropdown>
                                 : null}
                             <Button
@@ -118,6 +117,12 @@ class UserListItem extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return{
+        departments: state.firestore.ordered.departments
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         deleteUser: (uid) => dispatch(deleteUser(uid)),
@@ -125,5 +130,9 @@ const mapDispatchToProps = (dispatch) => {
         setDepartment: (uid, department) => dispatch(setDepartment(uid, department))
     }
 }
-
-export default connect(null, mapDispatchToProps)(UserListItem)
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    firestoreConnect([
+        { collection: 'departments'},
+    ])
+)(UserListItem)

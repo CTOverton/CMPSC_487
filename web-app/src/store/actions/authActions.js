@@ -93,14 +93,18 @@ export const deleteUser = (uid) => {
 }
 
 export const setClaims = (uid, claims) => {
-  return (dispatch, getState, {getFirebase}) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firebase = getFirebase();
+    const firestore = getFirestore();
     const setCustomClaims = firebase.functions().httpsCallable('setCustomClaims');
     setCustomClaims({
       uid: uid,
       claims: claims
     })
         .then(result => {
+          firestore.collection('users').doc(uid).update({
+            claims: claims
+          })
           dispatch({ type: 'SETCLAIMS_SUCCESS', result });
         }).catch(err => {
           dispatch({ type: 'SETCLAIMS_ERROR', err });
