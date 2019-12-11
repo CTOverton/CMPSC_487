@@ -40,27 +40,26 @@ class Apply extends Component {
             programId: this.props.programId,
             isDraft: true,
             studentData: {...this.state}
-        })
+        }, this.props.program)
     }
     handleSubmit = (e) => {
-        console.log(this.state)
-        console.log({
+        this.props.saveApplication({
             ...this.props.application && {id: this.props.application.id},
             programId: this.props.programId,
             isDraft: false,
             submitDate: new Date(),
             studentData: {...this.state}
-        })
+        }, this.props.program)
     }
     handleDefault = (e) => {
         e.preventDefault();
     }
 
     render() {
-        const { application, auth, profile, program } = this.props;
+        const { auth, profile, program, application, applicationError } = this.props;
         const redirect = <Redirect to='/' />;
         const content = <div className="container">
-            <form className="white" onSubmit={this.handleDefault}>
+            <form className="card z-depth-0" onSubmit={this.handleDefault}>
 
                 <h3>Application Details</h3>
 
@@ -115,8 +114,12 @@ class Apply extends Component {
                     </div>
                 </div>
 
+                <div className="center red-text">
+                    { applicationError ? <p>{applicationError}</p> : <p></p> }
+                </div>
+
                 { application && application.submitDate &&
-                    <div className="date">
+                    <div className="card-action grey lighten-4 grey-text">
                         <p> Date of application submission: {moment(application.submitDate.toDate()).fromNow()}</p>
                     </div>
                 }
@@ -150,13 +153,14 @@ const mapStateToProps = (state, ownProps) => {
         profile: state.firebase.profile,
         program: program,
         application: application,
+        applicationError: state.application.applicationError,
         programId: id
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        saveApplication: (application) => dispatch(saveApplication(application)),
+        saveApplication: (application, program) => dispatch(saveApplication(application, program)),
     }
 }
 
