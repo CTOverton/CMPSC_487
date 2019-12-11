@@ -7,6 +7,7 @@ export const createProgram = (program) => {
       ...program,
       authorFirstName: profile.firstName,
       authorLastName: profile.lastName,
+      department: profile.department ? profile.department : 'NO DEPARTMENT',
       authorId: authorId,
       createdAt: new Date()
     }).then(() => {

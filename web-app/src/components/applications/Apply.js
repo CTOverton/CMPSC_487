@@ -47,7 +47,8 @@ class Apply extends Component {
         console.log({
             ...this.props.application && {id: this.props.application.id},
             programId: this.props.programId,
-            isDraft: true,
+            isDraft: false,
+            submitDate: new Date(),
             studentData: {...this.state}
         })
     }
@@ -55,13 +56,8 @@ class Apply extends Component {
         e.preventDefault();
     }
 
-    getDate = () => {
-        var date = new Date().toDateString();
-        this.setState({ date });
-    };
-
     render() {
-        const { application, auth, profile } = this.props;
+        const { application, auth, profile, program } = this.props;
         const redirect = <Redirect to='/' />;
         const content = <div className="container">
             <form className="white" onSubmit={this.handleDefault}>
@@ -85,25 +81,19 @@ class Apply extends Component {
                         <input type="number" id='gre' onChange={this.handleChange} />
                     </div>
 
-                    <div className="file-field input-field">
-                        <div className="btn">
-                            <span>Upload</span>
-                            <input type="file"/>
-                        </div>
-                        <div className="file-path-wrapper">
-                            <input id="sop" className="file-path validate" type="text" placeholder="Statement of Purpose"/>
-                        </div>
-                    </div>
-
-                    <div className="file-field input-field">
-                        <div className="btn">
-                            <span>Upload</span>
-                            <input type="file" multiple/>
-                        </div>
-                        <div className="file-path-wrapper">
-                            <input id="documents" className="file-path validate" type="text" placeholder="Documents"/>
-                        </div>
-                    </div>
+                    {program && program.files && program.files.map(file => {
+                        return (
+                            <div className="file-field input-field">
+                                <div className="btn">
+                                    <span>Upload</span>
+                                    <input type="file"/>
+                                </div>
+                                <div className="file-path-wrapper">
+                                    <input id={file} className="file-path validate" type="text" placeholder={file}/>
+                                </div>
+                            </div>
+                        )
+                    })}
 
 
                     {/* Works except clicking on collapsable needs to be disabled somehow*/}
@@ -126,9 +116,12 @@ class Apply extends Component {
                     </div>
                 </div>
 
-                <div className="date">
-                    <p> Date of application submission: {moment(application.createdAt.toDate()).fromNow()}</p>
-                </div>
+                { application && application.submitDate &&
+                    <div className="date">
+                        <p> Date of application submission: {moment(application.submitDate.toDate()).fromNow()}</p>
+                    </div>
+                }
+
             </form>
         </div>;
 

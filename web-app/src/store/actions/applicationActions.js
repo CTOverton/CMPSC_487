@@ -36,7 +36,5 @@ export const saveApplication = (application) => {
                     dispatch({ type: 'CREATE_APPLICATION_ERROR' }, err);
             });
         }
-
-
     }
 }

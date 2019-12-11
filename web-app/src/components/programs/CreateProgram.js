@@ -9,13 +9,17 @@ class CreateProgram extends Component {
         description: '',
         courses: [],
         blacklistIDs: [],
-        gpa: ' ',
-        gre: ' '
+        gpa: null,
+        gre: null,
+        files: []
     }
 
     handleChange = (e) => {
-        if (e.target.id === "courses" || e.target.id === "blacklistIDs") {
+        if (e.target.id === "courses" || e.target.id === "blacklistIDs" || e.target.id === "files") {
             let list = e.target.value.split(',');
+            list.forEach((item, index) => {
+                list[index] = item.trim();
+            });
             this.setState({
                 [e.target.id]: list
             })
@@ -24,33 +28,11 @@ class CreateProgram extends Component {
                 [e.target.id]: e.target.value
             })
         }
-
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        // console.log(this.state);
         this.props.createProgram(this.state);
         this.props.history.push('/');
-    }
-
-    checkAcces = (allowedRoles, deniedRoles, profile) => {
-        // !profile.isEmpty && profile.token.claims[accessRole]
-        allowedRoles.map(role =>{
-            if (role === 'default') {
-                return true;
-            }
-            if (profile.token && profile.token.claims && profile.token.claims[role]) {
-                return true;
-            }
-        });
-        deniedRoles.map(role =>{
-            if (role === 'default') {
-                return false;
-            }
-            if (profile.token && profile.token.claims && profile.token.claims[role]) {
-                return false;
-            }
-        });
     }
 
     render() {
@@ -58,7 +40,10 @@ class CreateProgram extends Component {
         const redirect =  <Redirect to='/' />;
         const content =  <div className="container">
             <form className="white">
-                <h5 className="grey-text text-darken-3">Create a New Program</h5>
+                <h4 className="grey-text text-darken-3 center">Create a New Program</h4>
+
+                <h5 className="grey-text text-darken-3">Program Details</h5>
+
                 <div className="input-field">
                     <input type="text" id='title' onChange={this.handleChange} />
                     <label htmlFor="title">Program Title</label>
@@ -68,34 +53,31 @@ class CreateProgram extends Component {
                     <label htmlFor="description">Program Description</label>
                 </div>
 
-                <h6 className="grey-text text-darken-3">Blacklisted Students</h6>
+                <div className="input-field">
+                    <textarea id="courses" className="materialize-textarea" onChange={this.handleChange}></textarea>
+                    <label htmlFor="courses">Enter program courses separated by comma</label>
+                </div>
+
+                <h5 className="grey-text text-darken-3">Program Requirements and Moderation</h5>
 
                 <div className="input-field">
                     <textarea id="blacklistIDs" className="materialize-textarea" onChange={this.handleChange}></textarea>
-                    <label htmlFor="blacklistIDs">Enter student ID's separated by comma</label>
+                    <label htmlFor="blacklistIDs">Enter blacklisted student ID's separated by comma</label>
                 </div>
-
-                <h5 className="grey-text text-darken-3">Program Requirements</h5>
-
-                <h6 className="grey-text text-darken-3">Courses</h6>
 
                 <div className="input-field">
-                    <textarea id="courses" className="materialize-textarea" onChange={this.handleChange}></textarea>
-                    <label htmlFor="courses">Enter courses separated by comma</label>
+                    <textarea id="files" className="materialize-textarea" onChange={this.handleChange}></textarea>
+                    <label htmlFor="files">Enter files to submit separated by comma</label>
                 </div>
-
-                <h6 className="grey-text text-darken-3">GPA Requirement</h6>
 
                 <div className="input-field">
                     <input type="number" id='gpa' onChange={this.handleChange} />
-                    <label htmlFor="gpa">GPA</label>
+                    <label htmlFor="gpa">Min GPA Requirement</label>
                 </div>
-
-                <h6 className="grey-text text-darken-3">GRE Requirement</h6>
 
                 <div className="input-field">
                     <input type="number" id='gre' onChange={this.handleChange} />
-                    <label htmlFor="gre">GRE</label>
+                    <label htmlFor="gre">Min GRE Requirement</label>
                 </div>
 
                 <div className="input-field">
@@ -105,7 +87,8 @@ class CreateProgram extends Component {
         </div>;
 
         // Admin Only
-        return auth.isLoaded && profile.isLoaded && (auth.uid && profile.token.claims.admin === true ? content : redirect);
+        // return auth.isLoaded && profile.isLoaded && (auth.uid && profile.token.claims.admin === true ? content : redirect);
+        return content;
 
     }
 }

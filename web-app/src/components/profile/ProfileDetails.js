@@ -26,8 +26,8 @@ class ProfileDetails extends Component {
         // const { details } = profile;
         const details  = [
             {key:'email', value: auth.email, icon: 'email'},
-            {key:'firstName', value: profile.firstName, icon: 'face'},
-            {key:'lastName', value: profile.lastName, icon: 'face'},
+            {key:'firstName', value: profile.firstName, icon: 'perm_identity'},
+            {key:'lastName', value: profile.lastName, icon: 'perm_identity'},
         ];
 
         const redirect = <Redirect to='/signin' />;
@@ -36,7 +36,7 @@ class ProfileDetails extends Component {
                 <ProfileInfo props={this.props}/>
             </div>
             <div className="section">
-                <h5 className="white-text text-darken-3">Profile Details</h5>
+                <h5 className="grey-text text-darken-3">Profile Details</h5>
                 <Collapsible>
                     {details && details.map(detail => {
                         return (
