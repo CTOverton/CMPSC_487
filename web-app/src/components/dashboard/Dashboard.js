@@ -7,6 +7,8 @@ import { compose } from 'redux'
 import { Redirect } from 'react-router-dom'
 import ProgramList from "../programs/ProgramList";
 import ApplicationsList from "../applications/ApplicationsList";
+import StaffApplications from "../applications/StaffApplications";
+import AdminApplications from "../applications/AdminApplications";
 
 
 
@@ -22,7 +24,9 @@ class Dashboard extends Component {
         </div>
         <div className="col s12 m6">
           <h4 className="grey-text">My Applications</h4>
-          <ApplicationsList applications={applications} profile={profile} programs={programs}/>
+          {auth.isLoaded && profile.isLoaded && profile.token &&
+          profile.token.claims.admin ? <AdminApplications/> : (profile.token && profile.token.claims.staff ? <StaffApplications/> : <ApplicationsList applications={applications} profile={profile} programs={programs}/>)}
+
         </div>
         {/*<div className="col s12 m5 offset-m1">*/}
         {/*  /!*<Notifications notifications={notifications} />*!/*/}

@@ -21,7 +21,7 @@ const ApplicationDetails = (props) => {
                         <h6>GPA: {application.studentData.gpa} GRE: {application.studentData.gre}</h6>
                         <h6>Files submitted: {application.studentData.files}</h6>
 
-                        <Link to={"/program/" + program.id + "/apply"} className="waves-effect waves-light btn deep-purple darken-1">Edit</Link>
+                        <Link to={"/program/" + application.programId + "/apply"} className="waves-effect waves-light btn deep-purple darken-1">Edit</Link>
                     </div>
                     {/*Footer*/}
                     <div className="card-action grey lighten-4 grey-text">

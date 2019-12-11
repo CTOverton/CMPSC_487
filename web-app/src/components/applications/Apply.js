@@ -49,6 +49,7 @@ class Apply extends Component {
             submitDate: new Date(),
             studentData: {...this.state}
         }, this.props.program)
+        this.props.history.push('/');
     }
     handleDefault = (e) => {
         e.preventDefault();
