@@ -7,9 +7,12 @@ const ProgramList = ({programs}) => {
         <div className="program-list section">
         { programs && programs.map(program => {
             return (
-                <Link to={'/program/' + program.id} key={program.id} className="card-panel hoverable">
-                    <ProgramSummary program={program} />
-                </Link>
+                <div className="card-panel hoverable">
+                    <Link to={'/program/' + program.id} key={program.id}>
+                        <ProgramSummary program={program} />
+                    </Link>
+                </div>
+
             )
         })}
         </div>
