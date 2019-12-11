@@ -5,31 +5,49 @@ import { signUp } from '../../store/actions/authActions'
 
 class SignUp extends Component {
   state = {
-    email: '',
-    password: '',
+    userData: {
+      email: '',
+      firstName: '',
+      lastName: '',
+      password: ''
+    },
     confirmPassword: '',
-    firstName: '',
-    lastName: ''
+    confirmValidation: ''
   }
   handleChange = (e) => {
-    this.setState({
-      [e.target.id]: e.target.value
-    })
-  }
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.signUp(this.state);
+    const key = e.target.id;
+    if (key === 'confirmPassword') {
+      this.setState({
+        confirmPassword: e.target.value
+      })
+    } else {
+      this.setState({
+        userData:{
+          [key]: e.target.value
+        }
+      })
+    }
   }
 
-  // TODO: Fix confirm password
-  handlePassword = (e) => {
-    const { password, confirmPassword } = this.state;
-    if (confirmPassword !== password) {
-      alert("Passwords don't match");
-      e.preventDefault();
+  handleConfirm = (e) => {
+    if (this.state.userData.password !== this.state.confirmPassword) {
+      this.setState({
+        confirmValidation: 'invalid'
+      })
+    } else if (this.state.confirmPassword === '') {
+      this.setState({
+        confirmValidation: ''
+      })
     } else {
-      // make API call
+      this.setState({
+        confirmValidation: 'valid'
+      })
     }
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.signUp(this.state.userData);
   }
 
   render() {
@@ -45,15 +63,6 @@ class SignUp extends Component {
           <input type="email" id='email' onChange={this.handleChange} />
         </div>
         <div className="input-field">
-          <label htmlFor="password">Password</label>
-          <input type="password" id='password' onChange={this.handleChange} />
-        </div>
-        <div className="input-field">
-          {/* TODO: Fix Password Confirm*/}
-          <label htmlFor="confirmpassword">Confirm Password</label>
-          <input type="password" id='confirmpassword' onChange={this.handleChange} onBlur={this.handlePassword} />
-        </div>
-        <div className="input-field">
           <label htmlFor="firstName">First Name</label>
           <input type="text" id='firstName' onChange={this.handleChange} />
         </div>
@@ -62,8 +71,16 @@ class SignUp extends Component {
           <input type="text" id='lastName' onChange={this.handleChange} />
         </div>
         <div className="input-field">
+          <label htmlFor="password">Password</label>
+          <input type="password" id='password' onChange={this.handleChange} onBlur={this.handleConfirm} />
+        </div>
+        <div className="input-field">
+          <label htmlFor="confirmPassword" data-error="Passwords do not match">Confirm Password</label>
+          <input type="password" id='confirmPassword' className={this.state.confirmValidation} onChange={this.handleChange} onBlur={this.handleConfirm} />
+        </div>
+        <div className="input-field">
           {/* TODO Fix save vs submit*/}
-          <button className="waves-effect waves-light btn deep-purple darken-1" onClick={this.handlePassword}>Sign Up</button>
+          <button className="waves-effect waves-light btn deep-purple darken-1" onClick={this.handleConfirm}>Sign Up</button>
           <div className="center red-text">
             { authError ? <p>{authError}</p> : <p></p> }
           </div>
