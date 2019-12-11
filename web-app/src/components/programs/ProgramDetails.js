@@ -30,6 +30,15 @@ const ProgramDetails = (props) => {
                             })}
                         </ul>
 
+                        <h4>Additional Requirements</h4>
+
+                        <h6>GPA</h6>
+                        <p>Minimum - {program.gpa}</p>
+
+                        <h6>GRE</h6>
+                        <p>Minimum - {program.gre}</p>
+
+
                         {editBtn}
                         {applyBtn}
                     {/*    //Todo show submitted application*/}

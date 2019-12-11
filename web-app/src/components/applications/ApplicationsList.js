@@ -1,9 +1,7 @@
 import React from 'react'
-import {Link} from "react-router-dom";
 import moment from "moment";
 
 const ApplicationsList = ({applications, profile}) => {
-    console.log(applications)
     return (
         <div className="application-list section">
             <div className="card z-depth-0">

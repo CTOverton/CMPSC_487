@@ -7,6 +7,7 @@ import ProfileDetails from "../profile/ProfileDetails";
 import { Collapsible, CollapsibleItem, Icon, Switch, Checkbox } from 'react-materialize'
 import {createProgram} from "../../store/actions/programActions";
 import {saveApplication} from "../../store/actions/applicationActions";
+import moment from "moment";
 
 class Apply extends Component {
     state = {
@@ -16,7 +17,7 @@ class Apply extends Component {
         sop: '',
         is: true, //Todo add international student and TOEFLScore
         toefl: '',
-        documents: [],
+        documents: []
     }
 
     handleChange = (e) => {
@@ -54,13 +55,19 @@ class Apply extends Component {
         e.preventDefault();
     }
 
+    getDate = () => {
+        var date = new Date().toDateString();
+        this.setState({ date });
+    };
+
     render() {
-        const { program, auth, profile } = this.props;
+        const { application, auth, profile } = this.props;
         const redirect = <Redirect to='/' />;
         const content = <div className="container">
             <form className="white" onSubmit={this.handleDefault}>
 
                 <h3>Application Details</h3>
+
 
                 <ProfileDetails props={this.props} />
 
@@ -119,6 +126,9 @@ class Apply extends Component {
                     </div>
                 </div>
 
+                <div className="date">
+                    <p> Date of application submission: {moment(application.createdAt.toDate()).fromNow()}</p>
+                </div>
             </form>
         </div>;
 

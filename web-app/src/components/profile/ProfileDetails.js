@@ -36,7 +36,7 @@ class ProfileDetails extends Component {
                 <ProfileInfo props={this.props}/>
             </div>
             <div className="section">
-                <h5 className="grey-text text-darken-3">Profile Details</h5>
+                <h5 className="white-text text-darken-3">Profile Details</h5>
                 <Collapsible>
                     {details && details.map(detail => {
                         return (

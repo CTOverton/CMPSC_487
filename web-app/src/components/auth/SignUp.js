@@ -7,6 +7,7 @@ class SignUp extends Component {
   state = {
     email: '',
     password: '',
+    confirmPassword: '',
     firstName: '',
     lastName: ''
   }
@@ -19,6 +20,18 @@ class SignUp extends Component {
     e.preventDefault();
     this.props.signUp(this.state);
   }
+
+  // TODO: Fix confirm password
+  handlePassword = (e) => {
+    const { password, confirmPassword } = this.state;
+    if (confirmPassword !== password) {
+      alert("Passwords don't match");
+      e.preventDefault();
+    } else {
+      // make API call
+    }
+  }
+
   render() {
     const { auth, profile, authError } = this.props;
     // if (auth.uid && !profile.admin) return <Redirect to='/' />;
@@ -36,6 +49,11 @@ class SignUp extends Component {
           <input type="password" id='password' onChange={this.handleChange} />
         </div>
         <div className="input-field">
+          {/* TODO: Fix Password Confirm*/}
+          <label htmlFor="confirmpassword">Confirm Password</label>
+          <input type="password" id='confirmpassword' onChange={this.handleChange} onBlur={this.handlePassword} />
+        </div>
+        <div className="input-field">
           <label htmlFor="firstName">First Name</label>
           <input type="text" id='firstName' onChange={this.handleChange} />
         </div>
@@ -44,7 +62,8 @@ class SignUp extends Component {
           <input type="text" id='lastName' onChange={this.handleChange} />
         </div>
         <div className="input-field">
-          <button className="waves-effect waves-light btn deep-purple darken-1">Sign Up</button>
+          {/* TODO Fix save vs submit*/}
+          <button className="waves-effect waves-light btn deep-purple darken-1" onClick={this.handlePassword}>Sign Up</button>
           <div className="center red-text">
             { authError ? <p>{authError}</p> : <p></p> }
           </div>
