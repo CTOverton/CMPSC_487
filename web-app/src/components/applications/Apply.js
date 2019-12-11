@@ -64,7 +64,6 @@ class Apply extends Component {
 
                 <h3>Application Details</h3>
 
-
                 <ProfileDetails props={this.props} />
 
                 <div className="section">

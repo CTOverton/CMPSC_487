@@ -23,6 +23,7 @@ class SignUp extends Component {
     } else {
       this.setState({
         userData:{
+          ...this.state.userData,
           [key]: e.target.value
         }
       })
@@ -46,8 +47,13 @@ class SignUp extends Component {
   }
 
   handleSubmit = (e) => {
+    console.log(this.state)
     e.preventDefault();
-    this.props.signUp(this.state.userData);
+    if (this.state.userData.password !== this.state.confirmPassword) {
+      alert("Passwords do not match");
+    } else {
+      this.props.signUp(this.state.userData);
+    }
   }
 
   render() {
@@ -80,7 +86,7 @@ class SignUp extends Component {
         </div>
         <div className="input-field">
           {/* TODO Fix save vs submit*/}
-          <button className="waves-effect waves-light btn deep-purple darken-1" onClick={this.handleConfirm}>Sign Up</button>
+          <button className="waves-effect waves-light btn deep-purple darken-1" onClick={this.handleSubmit}>Sign Up</button>
           <div className="center red-text">
             { authError ? <p>{authError}</p> : <p></p> }
           </div>
