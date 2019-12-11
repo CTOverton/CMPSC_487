@@ -12,6 +12,7 @@ import ProfileDetails from "./components/profile/ProfileDetails";
 import TemplateComponent from "./components/template/TemplateComponent";
 import Apply from "./components/applications/Apply";
 import MyApplications from "./components/applications/MyApplications";
+import ApplicationDetails from "./components/applications/ApplicationDetails";
 
 class App extends Component {
   render() {
@@ -24,13 +25,15 @@ class App extends Component {
             <Route path='/project/:id' component={ProjectDetails} />
             <Route exact path='/program/:id' component={ProgramDetails} />
             <Route exact path='/program/:id/apply' component={Apply} />
-            {/*<Route path='/application/:id' component={} />*/}
+            <Route path='/createprogram' component={CreateProgram} />
+
 
             <Route path='/signin' component={SignIn} />
             <Route path='/signup' component={SignUp} />
             <Route path='/roles/edit' component={UpdateRoles} />
             <Route path='/profile' component={ProfileDetails} />
-            <Route path='/createprogram' component={CreateProgram} />
+
+            <Route path='/application/:id' component={ApplicationDetails} />
             <Route path='/myapplications' component={MyApplications} />
 
             <Route path='/templatetesting' component={TemplateComponent}/>
