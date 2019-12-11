@@ -7,7 +7,7 @@ class SignUp extends Component {
   state = {
     email: '',
     password: '',
-    confirmpassword: '',
+    confirmPassword: '',
     firstName: '',
     lastName: ''
   }
@@ -21,9 +21,10 @@ class SignUp extends Component {
     this.props.signUp(this.state);
   }
 
+  // TODO: Fix confirm password
   handlePassword = (e) => {
-    const { password, confirmpassword } = this.state;
-    if (confirmpassword !== password) {
+    const { password, confirmPassword } = this.state;
+    if (confirmPassword !== password) {
       alert("Passwords don't match");
       e.preventDefault();
     } else {
@@ -48,6 +49,7 @@ class SignUp extends Component {
           <input type="password" id='password' onChange={this.handleChange} />
         </div>
         <div className="input-field">
+          {/* TODO: Fix Password Confirm*/}
           <label htmlFor="confirmpassword">Confirm Password</label>
           <input type="password" id='confirmpassword' onChange={this.handleChange} onBlur={this.handlePassword} />
         </div>
@@ -60,6 +62,7 @@ class SignUp extends Component {
           <input type="text" id='lastName' onChange={this.handleChange} />
         </div>
         <div className="input-field">
+          {/* TODO Fix save vs submit*/}
           <button className="waves-effect waves-light btn deep-purple darken-1" onClick={this.handlePassword}>Sign Up</button>
           <div className="center red-text">
             { authError ? <p>{authError}</p> : <p></p> }

@@ -36,22 +36,8 @@ const authReducer = (state = initState, action) => {
         authError: action.err.message
       }
 
-    case 'UPDATEROLES_SUCCESS':
-      console.log('update role success', action.result)
-      return {
-        ...state
-      }
-
-    case 'UPDATEROLES_ERROR':
-      console.log('update role error')
-      return {
-        ...state,
-        authError: action.err.message
-      }
-
-
     case 'CREATEUSER_SUCCESS':
-      console.log('create user success', action.result)
+      console.log('create user success')
       return {
         ...state
       }
@@ -64,7 +50,7 @@ const authReducer = (state = initState, action) => {
       }
 
     case 'DELETEUSER_SUCCESS':
-      console.log('delete user success', action.result)
+      console.log('delete user success')
       return {
         ...state
       }
@@ -76,14 +62,14 @@ const authReducer = (state = initState, action) => {
         authError: action.err.message
       }
 
-    case 'SETCLAIMS_SUCCESS':
-      console.log('set user claims success', action.result)
+    case 'DEPARTMENT_UPDATE_SUCCESS':
+      console.log('department update success')
       return {
         ...state
       }
 
-    case 'SETCLAIMS_ERROR':
-      console.log('set user claims error', action.err.message)
+    case 'DEPARTMENT_UPDATE_ERROR':
+      console.log('department update success')
       return {
         ...state,
         authError: action.err.message

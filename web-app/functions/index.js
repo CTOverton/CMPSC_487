@@ -2,14 +2,13 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
-exports.createUser = functions.https.onCall((userRecord, customClaims) => {
-    return admin.auth().createUser(userRecord)
-        .then(userRecord => {
-            if (customClaims) {
-                admin.auth().setCustomUserClaims(userRecord.uid, customClaims)
-                    .then(() => {
+exports.createUser = functions.https.onCall((data, context) => {
+    const {userRecord, claims} = data;
+    return admin.auth().createUser(userRecord).then(user => {
+            if (claims) {
+                admin.auth().setCustomUserClaims(user.uid, claims).then(() => {
                         return {
-                            message: `Successfully created new user: ${userRecord.uid}, with claims ${customClaims}`
+                            message: `Successfully created new user: ${user.uid}, with claims ${claims}`
                         }
                     })
                     .catch(err => {
@@ -17,7 +16,7 @@ exports.createUser = functions.https.onCall((userRecord, customClaims) => {
                     })
             }
             return {
-                message: `Successfully created new user: ${userRecord.uid}`
+                message: `Successfully created new user: ${user.uid}`
             }
         })
         .catch(err => {
@@ -25,50 +24,22 @@ exports.createUser = functions.https.onCall((userRecord, customClaims) => {
         })
 });
 
-exports.updateRole = functions.https.onCall((data, context) => {
-    return admin.auth().getUserByEmail(data.email).then(user => {
-        if (data.role === 'admin') {
-            return admin.auth().setCustomUserClaims(user.uid, {
-                admin: true
-            })
-        } else {
-            return admin.auth().setCustomUserClaims(user.uid, {
-                admin: null
-            })
-        }
-
-    }).then(() => {
-        return {
-            message: `Success! ${data.email} is a ${data.role}`
-        }
-    }).catch(err => {
-        return err;
-    })
-});
-
-exports.setCustomClaims = functions.https.onCall((uid, claims) => {
-
-    return {
-        message: `Idk what is happening`,
-        claimsVar: claims,
-        working: {admin: true}
-    }
-
-  /*  return admin.auth().setCustomUserClaims(uid, {admin: true})
-        .then(() => {
+exports.setCustomClaims = functions.https.onCall((data, context) => {
+    const {uid, claims} = data;
+    return admin.auth().setCustomUserClaims(uid,claims).then(() => {
             return {
-                message: `Successfully added claims to user: ${uid}`
+                message: `Success! User ${uid} updated with claims ${JSON.stringify(claims)}`
             }
         })
         .catch(err => {
-            return err
-    })*/
+            return err;
+        })
 });
 
 
-exports.deleteUser = functions.https.onCall((uid) => {
-    return admin.auth().deleteUser(uid)
-        .then(() => {
+exports.deleteUser = functions.https.onCall((data, context) => {
+    const {uid} = data;
+    return admin.auth().deleteUser(uid).then(() => {
             return {
                 message: `Successfully deleted user: ${uid}`
             }

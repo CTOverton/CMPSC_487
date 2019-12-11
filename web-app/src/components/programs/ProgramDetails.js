@@ -20,7 +20,7 @@ const ProgramDetails = (props) => {
                         <p>{program.description}</p>
 
 
-                        <h4>Required Courses</h4>
+                        <h4>Courses</h4>
 
                         <ul className="courses-list collection">
                             {program.courses && program.courses.map(course => {
@@ -48,8 +48,6 @@ const ProgramDetails = (props) => {
                         <div>Posted by {program.authorFirstName} {program.authorLastName}</div>
                         <div>{moment(program.createdAt.toDate()).calendar()}</div>
                     </div>
-
-
                 </div>
             </div>
         ) : (

@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { CollectionItem, Button, Row, Col, Modal, Dropdown, TextInput } from 'react-materialize'
-import {deleteUser, updateRoles, setClaims} from "../../store/actions/authActions";
+import {deleteUser, setClaims, setDepartment} from "../../store/actions/authActions";
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {firestoreConnect} from "react-redux-firebase";
 
 class UserListItem extends Component {
     state = {
-        role: '',
-        department: ''
+        role: this.props.user.claims ? Object.keys(this.props.user.claims)[0] : '',
+        department: this.props.user.department ? this.props.user.department : ''
     };
 
     changeRole = (e) => {
@@ -16,8 +16,7 @@ class UserListItem extends Component {
             role: e.target.id
         });
 
-        console.log(this.props);
-        this.props.setClaims(this.props.user.id, {
+        this.props.setClaims(this.props.user.id,{
             [e.target.id]: true
         })
 
@@ -27,10 +26,12 @@ class UserListItem extends Component {
         this.setState({
             department: e.target.id
         })
+
+        this.props.setDepartment(this.props.user.id,e.target.id)
     };
 
     render() {
-        const user = this.props.user;
+        const {departments, user} = this.props;
         return (
             <CollectionItem>
                 <Row>
@@ -87,15 +88,14 @@ class UserListItem extends Component {
                                     }}
                                     trigger={<Button node="button">{(this.state.department === '')? "Edit Department": "Department: " + this.state.department}</Button>}
                                 >
-                                    <a id="Department1" onClick={this.changeDepartment}>
-                                        Department1
-                                    </a>
-                                    <a id="Department2" onClick={this.changeDepartment}>
-                                        Department2
-                                    </a>
-                                    <a id="Department3" onClick={this.changeDepartment}>
-                                        Department3
-                                    </a>
+
+                                    { departments && departments.map(department => {
+                                        return (
+                                            <a id={department.name} key={department.id} onClick={this.changeDepartment}>
+                                                {department.name}
+                                            </a>
+                                        )
+                                    })}
                                 </Dropdown>
                                 : null}
                             <Button
@@ -117,12 +117,22 @@ class UserListItem extends Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        updateRoles: (user) => dispatch(updateRoles(user)),
-        deleteUser: (uid) => dispatch(deleteUser(uid)),
-        setClaims: (uid, claims) => dispatch(setClaims(uid,claims))
+const mapStateToProps = (state) => {
+    return{
+        departments: state.firestore.ordered.departments
     }
 }
 
-export default connect(null, mapDispatchToProps)(UserListItem)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        deleteUser: (uid) => dispatch(deleteUser(uid)),
+        setClaims: (uid, claims) => dispatch(setClaims(uid, claims)),
+        setDepartment: (uid, department) => dispatch(setDepartment(uid, department))
+    }
+}
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    firestoreConnect([
+        { collection: 'departments'},
+    ])
+)(UserListItem)

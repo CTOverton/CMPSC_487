@@ -47,27 +47,15 @@ export const signUp = (newUser) => {
   }
 }
 
-export const updateRoles = (user) => {
-  return (dispatch, getState, {getFirebase}) => {
-    const firebase = getFirebase();
-    const updateRole = firebase.functions().httpsCallable('updateRole');
-    updateRole(user).then(result => {
-      // Todo: check if data.err or data.message to see if it actual was a success
-      dispatch({ type: 'UPDATEROLES_SUCCESS', result });
-    }).catch(err => {
-      dispatch({ type: 'UPDATEROLES_ERROR', err });
-    })
-  }
-}
-
 export const createUser = (user, customClaims) => {
   return (dispatch, getState, {getFirebase}) => {
     const firebase = getFirebase();
     const createUser = firebase.functions().httpsCallable('createUser');
-    createUser(user, customClaims).then(result => {
-      dispatch({ type: 'CREATEUSER_SUCCESS', result });
-    }).catch(err => {
-      dispatch({ type: 'CREATEUSER_ERROR', err });
+    createUser({userRecord: user, claims: customClaims})
+        .then(result => {
+          dispatch({ type: 'CREATEUSER_SUCCESS', result });
+        }).catch(err => {
+          dispatch({ type: 'CREATEUSER_ERROR', err });
     })
   }
 }
@@ -95,7 +83,7 @@ export const deleteUser = (uid) => {
           console.log("Error getting documents: ", err);
         });
 
-    deleteUser(uid)
+    deleteUser({uid: uid})
         .then(result => {
           dispatch({ type: 'DELETEUSER_SUCCESS', result });
         }).catch(err => {
@@ -105,18 +93,36 @@ export const deleteUser = (uid) => {
 }
 
 export const setClaims = (uid, claims) => {
-
-  console.log(uid,claims)
-  return (dispatch, getState, {getFirebase}) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firebase = getFirebase();
+    const firestore = getFirestore();
     const setCustomClaims = firebase.functions().httpsCallable('setCustomClaims');
-    setCustomClaims(uid, {
-      admin: true
+    setCustomClaims({
+      uid: uid,
+      claims: claims
     })
         .then(result => {
+          firestore.collection('users').doc(uid).update({
+            claims: claims
+          })
           dispatch({ type: 'SETCLAIMS_SUCCESS', result });
         }).catch(err => {
           dispatch({ type: 'SETCLAIMS_ERROR', err });
+    })
+  }
+}
+
+export const setDepartment = (uid, department) => {
+  return (dispatch, getState, {getFirestore}) => {
+    const firestore = getFirestore();
+
+    firestore.collection('users').doc(uid).set({
+      department: department
+    }, { merge: true })
+        .then(result => {
+          dispatch({ type: 'DEPARTMENT_UPDATE_SUCCESS', result });
+        }).catch(err => {
+          dispatch({ type: 'DEPARTMENT_UPDATE_ERROR', err });
     })
   }
 }

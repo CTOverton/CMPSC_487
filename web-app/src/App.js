@@ -29,15 +29,9 @@ class App extends Component {
             <Route path='/signin' component={SignIn} />
             <Route path='/signup' component={SignUp} />
             <Route path='/roles/edit' component={UpdateRoles} />
-
             <Route path='/profile' component={ProfileDetails} />
-
             <Route path='/createprogram' component={CreateProgram} />
             <Route path='/myapplications' component={MyApplications} />
-
-
-
-
 
             <Route path='/templatetesting' component={TemplateComponent}/>
           </Switch>
@@ -46,6 +40,5 @@ class App extends Component {
     );
   }
 }
-
 
 export default App;
