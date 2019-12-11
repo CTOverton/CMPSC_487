@@ -22,7 +22,7 @@ class Dashboard extends Component {
         </div>
         <div className="col s12 m6">
           <h4 className="grey-text">My Applications</h4>
-          <ApplicationsList applications={applications} profile={profile}/>
+          <ApplicationsList applications={applications} profile={profile} programs={programs}/>
         </div>
         {/*<div className="col s12 m5 offset-m1">*/}
         {/*  /!*<Notifications notifications={notifications} />*!/*/}

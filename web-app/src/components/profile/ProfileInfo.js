@@ -2,7 +2,6 @@ import React from 'react'
 
 const ProfileInfo = (props) => {
     const {auth, profile} = props.props;
-    console.log(props.props)
     return (
         <div>
             <h3 className="grey-text text-darken-3">{profile.firstName} {profile.lastName}</h3>

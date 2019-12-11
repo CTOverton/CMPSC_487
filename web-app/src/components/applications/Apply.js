@@ -10,13 +10,12 @@ import {saveApplication} from "../../store/actions/applicationActions";
 import moment from "moment";
 
 class Apply extends Component {
+
+    // TODO: populate fields if application exists
     state = {
         undergradDegree: '',
-        gpa: '',
-        gre: '',
-        sop: '',
-        is: true, //Todo add international student and TOEFLScore
-        toefl: '',
+        gpa: 0,
+        gre: 0,
         documents: []
     }
 
@@ -105,14 +104,16 @@ class Apply extends Component {
 
                 </div>
 
-                <div className="section">
-                    <div className="row">
-                        <div onClick={this.handleSave} className="col s12 waves-effect waves-light btn grey lighten-1">Save Draft</div>
+                { ((application && application.isDraft) || !application) &&
+                    <div className="section">
+                        <div className="row">
+                            <div onClick={this.handleSave} className="col s12 waves-effect waves-light btn grey lighten-1">Save Draft</div>
+                        </div>
+                        <div className="row">
+                            <div onClick={this.handleSubmit} className="col s12 waves-effect waves-light btn deep-purple darken-1">Submit</div>
+                        </div>
                     </div>
-                    <div className="row">
-                        <div onClick={this.handleSubmit} className="col s12 waves-effect waves-light btn deep-purple darken-1">Submit</div>
-                    </div>
-                </div>
+                }
 
                 <div className="center red-text">
                     { applicationError ? <p>{applicationError}</p> : <p></p> }
@@ -138,13 +139,14 @@ const mapStateToProps = (state, ownProps) => {
     const id = ownProps.match.params.id;
     const programs = state.firestore.data.programs;
     const applications = state.firestore.data.applications;
-    let application;
+    let application = null;
+    console.log(applications)
     if (applications) {
         for (const [key, value] of Object.entries(applications)) {
-            application = value.programId === id ? {...applications[key],id: key} : null;
+            if (value.programId === id) {
+                application = {...applications[key],id: key}
+            }
         }
-    } else {
-        application = null;
     }
 
     const program = programs ? programs[id] : null;

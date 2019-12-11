@@ -19,7 +19,7 @@ class MyApplications extends Component{
             <Row>
                 <Col s={12} m={6}>
                     <h4 className="grey-text">My Applications</h4>
-                    <ApplicationsList applications={applications} profile={profile}/>
+                    <ApplicationsList applications={applications} profile={profile} programs={programs}/>
                 </Col>
             </Row>
         </div>;
@@ -33,6 +33,7 @@ const mapStateToProps = (state) => {
     // console.log(state);
     return {
         applications: state.firestore.ordered.applications,
+        programs: state.firestore.ordered.programs,
         auth: state.firebase.auth,
         profile: state.firebase.profile
         // notifications: state.firestore.ordered.notifications
@@ -43,6 +44,7 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-        { collection: 'applications', orderBy: ['createdAt', 'desc']}
+        { collection: 'applications', orderBy: ['createdAt', 'desc']},
+        { collection: 'programs', orderBy: ['createdAt', 'desc']}
     ])
 )(MyApplications)

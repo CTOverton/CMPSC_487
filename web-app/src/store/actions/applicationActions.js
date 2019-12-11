@@ -1,11 +1,8 @@
 export const saveApplication = (application, program) => {
     return (dispatch, getState, {getFirestore}) => {
-
-        console.log("APPLICATION", application)
-        console.log("PROGRAM", program);
-        if (application.studentData.gpa < program.gpa) {
+        if (parseFloat(application.studentData.gpa) < parseFloat(program.gpa)) {
             dispatch({ type: 'CREATE_APPLICATION_ERROR', err: {message: 'A minimum GPA of ' + program.gpa + ' is required'} });
-        } else if (application.studentData.gre < program.gre) {
+        } else if (parseFloat(application.studentData.gre) < parseFloat(program.gre)) {
             dispatch({ type: 'CREATE_APPLICATION_ERROR', err: {message: 'A minimum GRE of ' + program.gre + ' is required'} });
         } else {
             const firestore = getFirestore();

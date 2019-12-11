@@ -6,7 +6,10 @@ const applicationReducer = (state = initState, action) => {
     switch (action.type) {
         case 'CREATE_APPLICATION_SUCCESS':
             console.log('create application success');
-            return state;
+            return {
+                ...state,
+                applicationError: null
+            }
         case 'CREATE_APPLICATION_ERROR':
             console.log('create application error');
             return {
@@ -15,7 +18,10 @@ const applicationReducer = (state = initState, action) => {
             }
         case 'ADD_APPLICATION_TO_USER_SUCCESS':
             console.log('add application to user success');
-            return state;
+            return {
+                ...state,
+                applicationError: null
+            }
         case 'ADD_APPLICATION_TO_USER_ERROR':
             console.log('add application to user error');
             return {
