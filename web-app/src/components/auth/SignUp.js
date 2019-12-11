@@ -9,33 +9,27 @@ class SignUp extends Component {
       email: '',
       firstName: '',
       lastName: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
     },
-    confirmPassword: '',
     confirmValidation: ''
   }
   handleChange = (e) => {
-    const key = e.target.id;
-    if (key === 'confirmPassword') {
-      this.setState({
-        confirmPassword: e.target.value
-      })
-    } else {
-      this.setState({
-        userData:{
-          ...this.state.userData,
-          [key]: e.target.value
-        }
-      })
-    }
+    this.setState({
+      userData:{
+        ...this.state.userData,
+        [e.target.id]: e.target.value
+      }
+    })
   }
 
   handleConfirm = (e) => {
-    if (this.state.userData.password !== this.state.confirmPassword) {
+    const {password, confirmPassword} = this.state.userData;
+    if (password !== confirmPassword) {
       this.setState({
         confirmValidation: 'invalid'
       })
-    } else if (this.state.confirmPassword === '') {
+    } else if (confirmPassword === '') {
       this.setState({
         confirmValidation: ''
       })
@@ -49,11 +43,7 @@ class SignUp extends Component {
   handleSubmit = (e) => {
     console.log(this.state)
     e.preventDefault();
-    if (this.state.userData.password !== this.state.confirmPassword) {
-      alert("Passwords do not match");
-    } else {
-      this.props.signUp(this.state.userData);
-    }
+    this.props.signUp(this.state.userData);
   }
 
   render() {

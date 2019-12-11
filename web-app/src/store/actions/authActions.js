@@ -1,7 +1,7 @@
 export const signIn = (credentials) => {
   return (dispatch, getState, {getFirebase}) => {
     const firebase = getFirebase();
-    
+
     firebase.auth().signInWithEmailAndPassword(
       credentials.email,
       credentials.password
@@ -26,24 +26,35 @@ export const signOut = () => {
 
 export const signUp = (newUser) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firebase = getFirebase();
-    const firestore = getFirestore();
 
-    firebase.auth().createUserWithEmailAndPassword(
-      newUser.email, 
-      newUser.password
-    ).then(resp => {
-      return firestore.collection('users').doc(resp.user.uid).set({
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
-        initials: newUser.firstName[0] + newUser.lastName[0],
-        email: newUser.email
+    if (newUser.email === '') {
+      dispatch({ type: 'SIGNUP_ERROR', err: {message: 'Email is required'} });
+    } else if (newUser.firstName === '') {
+      dispatch({ type: 'SIGNUP_ERROR', err: {message: 'First name is required'} });
+    } else if (newUser.lastName === '') {
+      dispatch({ type: 'SIGNUP_ERROR', err: {message: 'Last name is required'} });
+    } else if (newUser.password !== newUser.confirmPassword) {
+      dispatch({ type: 'SIGNUP_ERROR', err: {message: 'Passwords do not match'} });
+    } else {
+      const firebase = getFirebase();
+      const firestore = getFirestore();
+
+      firebase.auth().createUserWithEmailAndPassword(
+          newUser.email,
+          newUser.password
+      ).then(resp => {
+        return firestore.collection('users').doc(resp.user.uid).set({
+          firstName: newUser.firstName,
+          lastName: newUser.lastName,
+          initials: newUser.firstName[0] + newUser.lastName[0],
+          email: newUser.email
+        });
+      }).then(() => {
+        dispatch({ type: 'SIGNUP_SUCCESS' });
+      }).catch((err) => {
+        dispatch({ type: 'SIGNUP_ERROR', err});
       });
-    }).then(() => {
-      dispatch({ type: 'SIGNUP_SUCCESS' });
-    }).catch((err) => {
-      dispatch({ type: 'SIGNUP_ERROR', err});
-    });
+    }
   }
 }
 
